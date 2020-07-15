@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>嘉富财商-运维-登录</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./favicon.svg" type="image/svg" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+
+    <script src="./js/util.js"></script>
+    <style>
+
+    </style>
+
+    <script>
+
+    </script>
+</head>
+
+
+<body style="margin:0;padding:0;background-image:url('./image/background.png');">
+    <h1 style="text-align: center;">嘉富财商</h1>
+    <h2 style="text-align: center;">运维</h2>
+    <div style="width:400px;margin:auto;margin-top:80px;">
+        <div class="easyui-panel" title="登录">
+            <form id="ff" method="post">
+                <table cellpadding="5">
+                    <tr>
+                        <td>手机:</td>
+                        <td><input class="easyui-textbox" type="text"  style="width:250px;"></input>
+                        </td>
+                    </tr>
+                    <tr id="passwordTag" style="display:none;">
+                        <td>密码:</td>
+                        <td><input class="easyui-passwordbox" type="text" style="width:250px;"></input></td>
+                    </tr>
+                    <tr id="smsvcodeTag" >
+                        <td>验证码:</td>
+                        <td>
+                            <input class="easyui-textbox" type="text" style="width:200px;"></input>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" style="width:45px;" >
+                                发送
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div style="text-align:center;padding:5px">
+                <a href="javascript:void(0)" class="easyui-linkbutton" style="width:150px;" onclick="location.href='./index.html'">
+                    登录
+                </a>
+                <br/><br/>
+                <a id="passwordEnter" href="javascript:void(0)" style="width:150px;" 
+                    onclick="
+                        $('#passwordTag').show();
+                        $('#smsvcodeTag').hide();
+                        $('#passwordEnter').hide();
+                        $('#smsvcodeEnter').show();">
+                    密码登录
+                </a>&nbsp;
+                <a id="smsvcodeEnter" href="javascript:void(0)" style="width:150px;display:none;" 
+                    onclick="
+                        $('#smsvcodeTag').show();
+                        $('#passwordTag').hide();
+                        $('#smsvcodeEnter').hide();
+                        $('#passwordEnter').show();">
+                    验证码登录
+                </a>
+                <a href="./forget-password.html" style="width:150px;">忘记密码</a>   
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+</script>
+
+</html>

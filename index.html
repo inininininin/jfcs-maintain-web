@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>嘉富财商-运维-主页</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./favicon.svg" type="image/svg" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+
+    <script type="text/javascript" src="./jquery-viewer/js/viewer.min.js"></script>
+    <link rel="stylesheet" href="./jquery-viewer/css/viewer.min.css">
+    <script src="./jquery-viewer/js/viewer-jquery.min.js"></script>
+
+    <script src="./js/util.js"></script>
+    <style>
+
+    </style>
+
+    <script>
+
+    </script>
+</head>
+
+<body style="margin:0;padding:0;" class="easyui-layout">
+        <div data-options="region:'north'," style="height:100px;position:relative;">
+            <h1 style="margin:20px 0 0 30px;">嘉富财商</h1>
+            <span style="margin:0 0 0 30px;vertical-align: middle;font-weight: 600;">运维</span>
+            <div style="position: absolute;bottom:5px;left:200px;">
+                <img style="border:1px solid #858484;width:25px;height:25px;cursor:poiner;vertical-align: bottom;" src="./image/head.png"
+                    onclick="
+                        $(this).parent().viewer({
+                            url: 'src'
+                        });"/>
+                <span style="margin-left:5px;">renxinwei</span>
+            </div>
+        </div>
+        <div data-options="region:'west',title:'菜单',split:true" style="width:200px;">
+            <ul id="menu" ></ul>
+        </div>
+        <div data-options="region:'center'" style="background:#eee;">
+            <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;"></div>
+            <div id="tabsTools">
+                <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-dustbin"
+                    onclick="
+                        $.messager.confirm('确认', '确认关闭所有标签吗?', function(r){
+                            if (r){
+                                $($('#tabs').tabs('tabs')).each(function(index,ele){ $('#tabs').tabs('close',),index})
+                            }
+                        });">
+                </a>
+            </div>
+        </div>
+</body>
+<script>
+    $('#menu').tree({
+        data:[
+            {
+                id:"gaiLan",
+                text:"概览",
+                url:null,
+            },{
+                id:"yongHuGuanLi",
+                text:"用户管理",
+                url:null,
+            },{
+                id:"wenJuanGuanLi",
+                text:"问卷管理",
+                url:null,
+            },{
+                id:"keFuGuanJianCi",
+                text:"客服关键词",
+                url:null,
+            },{
+                id:"yuDingYiWenTi",
+                text:"预定义问题",
+                url:null,
+            },{
+                id:"canShuPeiZhi",
+                text:"参数配置",
+                url:null,
+            },{
+                id:"geRenZhongXin",
+                text:"个人中心",
+                url:null,
+            },{
+                id:"tuiChuDengLu",
+                text:"退出登录",
+            },
+        ],
+        onSelect: function(node){
+            debugger;
+            if(node.id=='tuiChuDengLu'){
+                location.href='./login.html'
+                return;
+            }
+            $('#tabs').tabs('add',{
+                id:node.id,
+                title:node.text,
+                closable:true,
+                href:node.url,
+            });
+        }
+    });
+  
+
+    $('#tabs').tabs({
+        border:false,
+        tools: '#tabsTools',
+        fit: true,
+        onSelect:function(title){
+        }
+    });
+
+    $.parser.onComplete = function () {
+        debugger
+        
+    }
+
+    $(document).ready(function () {
+        var node = $('#menu').tree('find', 'gaiLan');
+        $('#menu').tree('select', node.target);
+    });
+
+</script>
+
+</html>
