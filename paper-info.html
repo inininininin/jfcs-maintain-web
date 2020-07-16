@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>嘉富财商-运维-问卷信息</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="./jquery-viewer/js/viewer.min.js"></script>
+    <link rel="stylesheet" href="./jquery-viewer/css/viewer.min.css">
+    <script src="./jquery-viewer/js/viewer-jquery.min.js"></script>
+    <script src="./layer/layer.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/project.js"></script>
+    <link rel="stylesheet" href="./css/project.css">
+    <script src="./js/moment.js"></script>
+    <style></style>
+</head>
+
+<script>
+
+    layer.config({offset: '200px'});
+    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        $('#doingTag').show();
+    });
+    $.ajaxSetup({
+        complete:function(){
+            $('#doingTag').hide();
+        },
+        error:function(xhr){
+            layer.msg('网络错误<br/>'+xhr.status+'-'+xhr.statusText);
+        }
+    })
+
+    var qso = util.queryStringObject();
+    qso.paperId;
+    var item = {}
+
+    $.ajax({
+        type: 'get',
+        url: `/maintain/paper-info?paperId=${qso.paperId}`,
+        async: false,
+        success: function (res) {
+            debugger
+            if (res.codeMsg)
+                layer.msg(res.codeMsg);
+            if (res.code == 0) {
+                item = res.data;
+            }
+        }
+    })
+
+    $.parser.onComplete = function () {
+        debugger
+    }
+
+    $(document).ready(function(){
+        debugger
+    })
+
+    function paperUpdate(){
+        debugger
+        $.messager.confirm('提示','确认修改吗?',function(r){
+            if(r){
+                $.ajax({
+                        type: 'post',
+                        url: '/maintain/paper-update',
+                        data: item,
+                        success: function (res) {
+                            debugger
+                            if (res.codeMsg)
+                                $.messager.alert('提示',res.codeMsg);
+                            if (res.code == 0) {
+                                if (!res.codeMsg)
+                                    $.messager.alert('提示','修改成功',null,function(){ location.reload()});
+                            } 
+                        }
+                    })
+            }
+        })
+    }
+             
+    function paperDelete(){
+        debugger
+        $.messager.confirm('提示','确认删除吗？', function(r){
+            if(r)
+            $.ajax({
+                type: 'post',
+                url: '/maintain/paper-list-delete',
+                data: {paperId:item.paperId,expectCount:1},
+                success: function (res) {
+                    debugger
+                    if (res.codeMsg)
+                        $.messager.alert('提示',res.codeMsg);
+                    if (res.code == 0) {
+                        if (!res.codeMsg)
+                            $.messager.alert('提示','删除成功',null,function(){ location.reload()});
+                    } 
+                }
+            })
+        });             
+    }
+             
+    function frozenPaper(){
+        debugger
+        $.messager.prompt('提示','请输入冻结原因',function(r){
+                if (r){
+                    reason = r;
+                    $.messager.confirm('提示','确认冻结吗？', function(r){
+            if(r)
+            $.ajax({
+                                type: 'post',
+                                url: '/maintain/paper-frozen',
+                                data: {paperId:item.paperId,reason:reason,expectedItemCount:1},
+                                success: function (res) {
+                                    debugger
+                                    if (res.codeMsg)
+                                        $.messager.alert('提示',res.codeMsg);
+                                    if (res.code == 0) {
+                                        if (!res.codeMsg)
+                                            $.messager.alert('提示','操作成功',null,function(){ location.reload()});
+                                    } 
+                                }
+                            })
+            });     
+
+                }
+        })    
+    }
+
+    function unfrozenPaper(){
+        debugger
+        $.messager.confirm('提示','确认解冻吗？', function(r){
+            if(r)
+            $.ajax({
+                                type: 'post',
+                                url: '/maintain/paper-unfrozen',
+                                data: {paperId:item.paperId,expectedItemCount:1},
+                                success: function (res) {
+                                    debugger
+                                    if (res.codeMsg)
+                                        $.messager.alert('提示',res.codeMsg);
+                                    if (res.code == 0) {
+                                        if (!res.codeMsg)
+                                            $.messager.alert('提示','解冻成功',null,function(){ location.reload()});
+                                    } 
+                                }
+                            })
+            });          
+    }
+
+
+
+        
+</script>
+
+<body style="margin:0;padding:0;">
+    <img id="doingTag" src="./image/doing.gif" style="width:100%;height:5px;position: absolute;top:0;z-index: 999999;display:none;" />
+    <table id="datagrid"  data-options="singleSelect:true, footer: '#datagridFoot',title:'问卷详情'">
+        <thead>
+            <tr>
+                <th data-options="field:'name',width:200,align:'right'">属性&nbsp;</th>
+                <th data-options="field:'value',width:500">值</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>问卷Id&nbsp;</td>
+                <td>
+                    <span id="paperId" style="margin-left:5px;"></span>
+                    <img src="./favicon.svg" onload="$('#paperId').text(item.paperId||'')" style="display:none;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>问卷名&nbsp;</td>
+                <td>
+                    <input id="name" class="easyui-textbox" style="width:100%" 
+                        data-options="
+                            value:item.name,
+                            iconWidth:20,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    debugger
+                                    $(e.data.target).textbox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.name=newValue
+                            }
+                        "
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>题数&nbsp;</td>
+                <td>
+                    <a id="paperQuestionCount" href="javascript:void(0);" onclick=""  style="margin-left:5px;"></a>
+                    <img style="display:none;" src="./favicon.svg" onload="$('#paperQuestionCount').text(item.paperQuestionCount)"/>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>冻结&nbsp;</td>
+                <td>
+                    <span id="frozen"  style="margin-left:5px;"></span>
+                    <img src="./favicon.svg" style="display:none;"
+                        onload="
+                            $('#frozen').text(item.frozen==1?'是':item.frozen==0?'否':'')
+                        "
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>冻结备注&nbsp;</td>
+                <td>
+                    <div id="frozenNote" style="margin-left:5px;padding: 5px 0;word-wrap: break-word; white-space: normal;"></div>
+                    <img src="./favicon.svg" onload="$('#frozenNote').text(item.frozenNote||'')" style="display:none;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>备注&nbsp;</td>
+                <td>
+                    <input id="note" class="easyui-textbox" style="width:100%;height:200px;" 
+                        data-options="
+                            value:item.note,
+                            multiline:true,
+                            onChange:function(newValue, oldValue){
+                                item.note=newValue
+                            }
+                        "
+                        style="width:200px"
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间&nbsp;</td>
+                <td>
+                    <input id="insertTime" class="easyui-datetimebox" style="width:100%" 
+                        data-options="
+                            value:moment(item.insertTime).format('YYYY-MM-DD H:mm:ss'),
+                            editable:false,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    $(e.data.target).datetimebox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.insertTime=newValue
+                            }
+                        "
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>更新时间&nbsp;</td>
+                <td>
+                    <span id="updateTime"  style="margin-left:5px;"></span>
+                    <img src="./favicon.svg" onload="$('#updateTime').text(item.updateTime?moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss'):'')" style="display:none;"/>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div id="datagridFoot" style="padding:2px 5px;">
+        <a id="update" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-edit"  plain="true"
+            onclick="$('#update,#remove,#reload,#updatePasswordPageEntrance,#freeze,#unfreeze,#resultManage').hide();$('#updateConfirm,#updateCancel').show()"
+            >修改
+        </a>
+        <a id="updateConfirm" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-ok"  plain="true" 
+            onclick="paperUpdate()"
+            >确认
+        </a>
+        <a id="updateCancel" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-cancel"  plain="true" 
+            onclick="location.reload()"
+            >取消
+        </a>
+        <a id="remove" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-remove"  plain="true" 
+            onclick="paperDelete()"
+            >删除
+        </a>
+        <a id="reload" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-reload"  plain="true" 
+            onclick="$.messager.confirm('提示','已编辑的数据将丢失, 确认继续吗?',function(r){if(r) location.reload()})"
+            >刷新
+        </a>
+        <a id="resultManage" href="JavaScript:void(0)" class="easyui-linkbutton"   plain="true" 
+            onclick="project.newTab({title:'配置结果',url:`./paper-result-manage.html?paperId=${item.paperId}&paperName=${item.name}`})"
+            >配置结果
+        </a>
+    </div>
+        
+</body>
+<script>
+    $('#datagrid').datagrid()
+</script>
+</html>

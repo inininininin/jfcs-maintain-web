@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>嘉富财商-运维-问卷-结果信息</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="./jquery-viewer/js/viewer.min.js"></script>
+    <link rel="stylesheet" href="./jquery-viewer/css/viewer.min.css">
+    <script src="./jquery-viewer/js/viewer-jquery.min.js"></script>
+    <script src="./layer/layer.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/project.js"></script>
+    <link rel="stylesheet" href="./css/project.css">
+    <script src="./js/moment.js"></script>
+    <style></style>
+</head>
+
+<script>
+
+    layer.config({offset: '200px'});
+    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        $('#doingTag').show();
+    });
+    $.ajaxSetup({
+        complete:function(){
+            $('#doingTag').hide();
+        },
+        error:function(xhr){
+            layer.msg('网络错误<br/>'+xhr.status+'-'+xhr.statusText);
+        }
+    })
+
+    var qso = util.queryStringObject();
+    qso.paperResultId;
+    var item = {}
+
+    $.ajax({
+        type: 'get',
+        url: `/maintain/paper-result-info?paperResultId=${qso.paperResultId}`,
+        async: false,
+        success: function (res) {
+            debugger
+            if (res.codeMsg)
+                layer.msg(res.codeMsg);
+            if (res.code == 0) {
+                item = res.data;
+            }
+        }
+    })
+
+    $.parser.onComplete = function () {
+        debugger
+    }
+
+    $(document).ready(function(){
+        debugger
+    })
+
+    function paperUpdate(){
+        debugger
+        $.messager.confirm('提示','确认修改吗?',function(r){
+            if(r){
+                $.ajax({
+                        type: 'post',
+                        url: '/maintain/paper-result-update',
+                        data: item,
+                        success: function (res) {
+                            debugger
+                            if (res.codeMsg)
+                                $.messager.alert('提示',res.codeMsg);
+                            if (res.code == 0) {
+                                if (!res.codeMsg)
+                                    $.messager.alert('提示','修改成功',null,function(){ location.reload()});
+                            } 
+                        }
+                    })
+            }
+        })
+    }
+             
+    function paperDelete(){
+        debugger
+        $.messager.confirm('提示','确认删除吗？', function(r){
+            if(r)
+            $.ajax({
+                type: 'post',
+                url: '/maintain/paper-result-list-delete',
+                data: {paperResultId:item.paperResultId,expectCount:1},
+                success: function (res) {
+                    debugger
+                    if (res.codeMsg)
+                        $.messager.alert('提示',res.codeMsg);
+                    if (res.code == 0) {
+                        if (!res.codeMsg)
+                            $.messager.alert('提示','删除成功',null,function(){ location.reload()});
+                    } 
+                }
+            })
+        });             
+    }
+             
+        
+</script>
+
+<body style="margin:0;padding:0;">
+    <img id="doingTag" src="./image/doing.gif" style="width:100%;height:5px;position: absolute;top:0;z-index: 999999;display:none;" />
+    <table id="datagrid"  data-options="singleSelect:true, footer: '#datagridFoot',title:'问卷详情'">
+        <thead>
+            <tr>
+                <th data-options="field:'name',width:200,align:'right'">属性&nbsp;</th>
+                <th data-options="field:'value',width:500">值</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>结果Id&nbsp;</td>
+                <td>
+                    <span id="paperId" style="margin-left:5px;"></span>
+                    <img src="./favicon.svg" onload="$('#paperId').text(item.paperId||'')" style="display:none;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>结果名&nbsp;</td>
+                <td>
+                    <input id="name" class="easyui-textbox" style="width:100%" 
+                        data-options="
+                            value:item.name,
+                            iconWidth:20,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    debugger
+                                    $(e.data.target).textbox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.name=newValue
+                            }
+                        "
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>问卷名&nbsp;</td>
+                <td>
+                    <span id="paperName" style="margin-left:5px;"></span>
+                    <img src="./favicon.svg" onload="$('#paperName').text(item.paperName||'')" style="display:none;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>最低分&nbsp;</td>
+                <td>
+                    <input id="scoreFrom" class="easyui-numberbox" style="width:100%" 
+                        data-options="
+                            value:item.scoreFrom,
+                            iconWidth:20,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    $(e.data.target).textbox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.scoreFrom=newValue
+                            }
+                        " 
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>最高分&nbsp;</td>
+                <td>
+                    <input id="scoreTo" class="easyui-numberbox" style="width:100%" 
+                        data-options="
+                            value:item.scoreTo,
+                            iconWidth:20,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    $(e.data.target).textbox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.scoreTo=newValue
+                            }
+                        " 
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>市场快评&nbsp;</td>
+                <td>
+                    <div id="shiChangKuaiPingImage">
+                        <img style="display:none;" src="./favicon.svg" onload="$('#shiChangKuaiPingImage [name=value]').attr('src',item.shiChangKuaiPingImage).parent().viewer({url: 'src',});if(item.shiChangKuaiPingImage) $('#shiChangKuaiPingImage [name=value]').show();" />
+                        <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                        <input type="file" style="display:none;" onchange="
+                            javascript:
+                            var target = this;
+                            if(this.files.length>0){
+                                var file = this.files[0];
+                                var fd = new FormData()
+                                fd.append('file', file);
+                                $.ajax({
+                                    url: '/upload-file?',
+                                    type: 'POST',
+                                    data: fd,
+                                    cache: false,
+                                    processData: false,
+                                    contentType: false,
+                                    async: true,
+                                    success: function (res) {
+                                        if (res.codeMsg)
+                                            $.messager.alert('提示',res.codeMsg)
+                                        if (res.code == 0) {
+                                            item.shiChangKuaiPingImage=res.data.url 
+                                            $(target).prev().attr('src',item.shiChangKuaiPingImage).show()
+                                         target.value=null
+                                        }
+                                    }
+                                })
+                            }
+                        " />
+                        <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                            style="vertical-align: text-bottom;"
+                            onclick="$(this).prev().prev().attr('src',null).hide();item.shiChangKuaiPingImage='';"></a>
+
+                        <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                            style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>规划方案&nbsp;</td>
+                <td>
+                    <div id="guiHuaFangAnImage">
+                        <img style="display:none;" src="./favicon.svg" onload="$('#guiHuaFangAnImage [name=value]').attr('src',item.guiHuaFangAnImage).parent().viewer({url: 'src',});if(item.guiHuaFangAnImage) $('#guiHuaFangAnImage [name=value]').show();" />
+                        <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                        <input type="file" style="display:none;" onchange="
+                            javascript:
+                            var target = this;
+                            if(this.files.length>0){
+                                var file = this.files[0];
+                                var fd = new FormData()
+                                fd.append('file', file);
+                                $.ajax({
+                                    url: '/upload-file?',
+                                    type: 'POST',
+                                    data: fd,
+                                    cache: false,
+                                    processData: false,
+                                    contentType: false,
+                                    async: true,
+                                    success: function (res) {
+                                        if (res.codeMsg)
+                                            $.messager.alert('提示',res.codeMsg)
+                                        if (res.code == 0) {
+                                            item.guiHuaFangAnImage=res.data.url 
+                                            $(target).prev().attr('src',item.guiHuaFangAnImage).show()
+                                         target.value=null
+                                        }
+                                    }
+                                })
+                            }
+                        " />
+                        <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                            style="vertical-align: text-bottom;"
+                            onclick="$(this).prev().prev().attr('src',null).hide();item.guiHuaFangAnImage='';"></a>
+
+                        <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                            style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>规划建议&nbsp;</td>
+                <td>
+                    <div id="guiHuaJianYiImage">
+                        <img style="display:none;" src="./favicon.svg" onload="$('#guiHuaJianYiImage [name=value]').attr('src',item.guiHuaJianYiImage).parent().viewer({url: 'src',});if(item.guiHuaJianYiImage) $('#guiHuaJianYiImage [name=value]').show();" />
+                        <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                        <input type="file" style="display:none;" onchange="
+                            javascript:
+                            var target = this;
+                            if(this.files.length>0){
+                                var file = this.files[0];
+                                var fd = new FormData()
+                                fd.append('file', file);
+                                $.ajax({
+                                    url: '/upload-file?',
+                                    type: 'POST',
+                                    data: fd,
+                                    cache: false,
+                                    processData: false,
+                                    contentType: false,
+                                    async: true,
+                                    success: function (res) {
+                                        if (res.codeMsg)
+                                            $.messager.alert('提示',res.codeMsg)
+                                        if (res.code == 0) {
+                                            item.guiHuaJianYiImage=res.data.url 
+                                            $(target).prev().attr('src',item.guiHuaJianYiImage).show()
+                                         target.value=null
+                                        }
+                                    }
+                                })
+                            }
+                        " />
+                        <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                            style="vertical-align: text-bottom;"
+                            onclick="$(this).prev().prev().attr('src',null).hide();item.guiHuaJianYiImage='';"></a>
+
+                        <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                            style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="datagridFoot" style="padding:2px 5px;">
+        <a id="update" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-edit"  plain="true"
+            onclick="$('#update,#remove,#reload,#updatePasswordPageEntrance,#freeze,#unfreeze').hide();$('#updateConfirm,#updateCancel').show()"
+            >修改
+        </a>
+        <a id="updateConfirm" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-ok"  plain="true" 
+            onclick="paperUpdate()"
+            >确认
+        </a>
+        <a id="updateCancel" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-cancel"  plain="true" 
+            onclick="location.reload()"
+            >取消
+        </a>
+        <a id="remove" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-remove"  plain="true" 
+            onclick="paperDelete()"
+            >删除
+        </a>
+        <a id="reload" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-reload"  plain="true" 
+            onclick="$.messager.confirm('提示','已编辑的数据将丢失, 确认继续吗?',function(r){if(r) location.reload()})"
+            >刷新
+        </a>
+    </div>
+        
+</body>
+<script>
+    $('#datagrid').datagrid()
+</script>
+</html>

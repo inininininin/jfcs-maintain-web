@@ -11,6 +11,8 @@
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
     <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script src="./layer/layer.js"></script>
 
     <script src="./js/util.js"></script>
     <style>
@@ -18,32 +20,114 @@
     </style>
 
     <script>
+        layer.config({offset: '200px'});
+        $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+            $('#doingTag').show();
+        });
+        $.ajaxSetup({
+            complete:function(){
+                $('#doingTag').hide();
+            },
+            error:function(xhr){
+                layer.msg('网络错误<br/>'+xhr.status+'-'+xhr.statusText);
+            }
+        })
 
+        
+        $(document).ready(function(){
+            $('#passwordLoginTag').bind('keypress', function(event) {
+                debugger
+                if (event.keyCode == "13") {
+                    event.preventDefault();
+                    //回车执行查询
+                    $('#passwordLoginTag [name=loginEnter]').click();
+                }
+            });
+
+            $('#smsLoginTag').bind('keypress', function(event) {
+                debugger
+                if (event.keyCode == "13") {
+                    event.preventDefault();
+                    //回车执行查询
+                    $('#smsLoginTag [name=loginEnter]').click();
+                }
+            });
+        });
+        
     </script>
 </head>
 
 
 <body style="margin:0;padding:0;background-image:url('./image/background.png');">
+    <img id="doingTag" src="./image/doing.gif" style="width:100%;height:5px;position: absolute;top:0;z-index: 999999;display:none;" />
     <h1 style="text-align: center;">嘉富财商</h1>
     <h2 style="text-align: center;">运维</h2>
     <div style="width:400px;margin:auto;margin-top:80px;">
-        <div class="easyui-panel" title="登录">
-            <form id="ff" method="post">
+        <div id="passwordLoginTag" class="easyui-panel" title="登录">
+            <form name="ff" method="post">
                 <table cellpadding="5">
                     <tr>
                         <td>手机:</td>
-                        <td><input class="easyui-textbox" type="text"  style="width:250px;"></input>
+                        <td><input name="account" class="easyui-textbox" type="text"  style="width:300px;"></input>
                         </td>
                     </tr>
-                    <tr id="passwordTag" style="display:none;">
+                    <tr id="passwordTag" >
                         <td>密码:</td>
-                        <td><input class="easyui-passwordbox" type="text" style="width:250px;"></input></td>
+                        <td><input name="password" class="easyui-passwordbox" type="text" style="width:300px;"></input></td>
                     </tr>
-                    <tr id="smsvcodeTag" >
+                </table>
+            </form>
+            <div style="text-align:center;padding:5px">
+                <a name="loginEnter" href="javascript:void(0)" class="easyui-linkbutton" style="width:150px;" 
+                    onclick="
+                        $.post('/login',{account:$('#passwordLoginTag [name=account]').val(),password:$('#passwordLoginTag [name=password]').val()},function(res){
+                            if(res.codeMsg)
+                                $.messager.alert('提示',res.codeMsg);
+                            if(res.code==0){
+                                if(!res.codeMsg)
+                                    layer.msg('登录成功');
+                                    location.href='./index.html'
+                            }
+                            
+                        })">
+                    登录
+                </a>
+                <br/><br/>
+                <a href="javascript:void(0)" style="width:150px;" 
+                    onclick="
+                        $('#passwordLoginTag').panel('close');
+                        $('#smsLoginTag').panel('open');">
+                    验证码登录
+                </a>&nbsp;
+                <a href="./forget-password.html" style="width:150px;">忘记密码</a>   
+            </div>
+        </div>
+    
+
+
+
+        <div id="smsLoginTag" class="easyui-panel" title="登录" data-options="closed:true">
+            <form name="ff" method="post">
+                <table cellpadding="5">
+                    <tr>
+                        <td>手机:</td>
+                        <td><input name="phone" class="easyui-textbox" type="text"  style="width:300px;"></input>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>验证码:</td>
                         <td>
-                            <input class="easyui-textbox" type="text" style="width:200px;"></input>
-                            <a href="javascript:void(0)" class="easyui-linkbutton" style="width:45px;" >
+                            <input name="vcode" class="easyui-textbox" type="text" style="width:250px;"></input>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" style="width:45px;"
+                                onclick="
+                                    $.post('/send-sms-vcode',{phone:$('#smsLoginTag [name=phone]').val(),password:$('#smsLoginTag [name=vcode]').val()},function(res){
+                                        if(res.codeMsg)
+                                            $.messager.alert('提示',res.codeMsg);
+                                        if(res.code==0){
+                                            if(!res.codeMsg)
+                                                layer.msg('发送成功');
+                                        }
+                                    })">
                                 发送
                             </a>
                         </td>
@@ -51,26 +135,32 @@
                 </table>
             </form>
             <div style="text-align:center;padding:5px">
-                <a href="javascript:void(0)" class="easyui-linkbutton" style="width:150px;" onclick="location.href='./index.html'">
+                <a name="loginEnter" href="javascript:void(0)" class="easyui-linkbutton" style="width:150px;" 
+                    onclick="
+                        $.post('/login-by-sms',{phone:$('#smsLoginTag [name=phone]').val(),vcode:$('#smsLoginTag [name=vcode]').val()},function(res){
+                            if(res.codeMsg)
+                                $.messager.alert('提示',res.codeMsg);
+                            if(res.code==0){
+                                if(!res.codeMsg)
+                                    layer.msg('登录成功');
+                                    $.post('/login-refresh',function(res){
+                                        if(res.codeMsg)
+                                            $.messager.alert('提示',res.codeMsg);
+                                        if(res.code==0){
+                                            location.href='./index.html'
+                                        }
+                                    })
+                            }
+                        })">
                     登录
                 </a>
                 <br/><br/>
-                <a id="passwordEnter" href="javascript:void(0)" style="width:150px;" 
+                <a href="javascript:void(0)" style="width:150px;" 
                     onclick="
-                        $('#passwordTag').show();
-                        $('#smsvcodeTag').hide();
-                        $('#passwordEnter').hide();
-                        $('#smsvcodeEnter').show();">
+                        $('#passwordLoginTag').panel('open');
+                        $('#smsLoginTag').panel('close');">
                     密码登录
                 </a>&nbsp;
-                <a id="smsvcodeEnter" href="javascript:void(0)" style="width:150px;display:none;" 
-                    onclick="
-                        $('#smsvcodeTag').show();
-                        $('#passwordTag').hide();
-                        $('#smsvcodeEnter').hide();
-                        $('#passwordEnter').show();">
-                    验证码登录
-                </a>
                 <a href="./forget-password.html" style="width:150px;">忘记密码</a>   
             </div>
         </div>
@@ -78,6 +168,7 @@
 </body>
 <script>
 
+  
 </script>
 
 </html>

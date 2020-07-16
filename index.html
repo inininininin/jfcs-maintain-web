@@ -16,46 +16,75 @@
     <script type="text/javascript" src="./jquery-viewer/js/viewer.min.js"></script>
     <link rel="stylesheet" href="./jquery-viewer/css/viewer.min.css">
     <script src="./jquery-viewer/js/viewer-jquery.min.js"></script>
-
+    <script src="./layer/layer.js"></script>
     <script src="./js/util.js"></script>
+    <script src="./js/project.js"></script>
     <style>
 
     </style>
 
     <script>
 
+        layer.config({offset: '200px'});
+        $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+            $('#doingTag').show();
+        });
+        $.ajaxSetup({
+            complete:function(){
+                $('#doingTag').hide();
+            },
+            error:function(xhr){
+                layer.msg('网络错误<br/>'+xhr.status+'-'+xhr.statusText);
+            }
+        })
+
+        $(document).ready(function(){
+            $.post('/login-refresh',function(res){                
+                if(res.code==0){
+                    $('#nickname').text(res.data.nickname)
+                }else{
+                    $.messager.confirm('提示', '您还未登录，是否去登录?', function(r){
+                        if (r){
+                            location.href="./login.html"
+                        }
+                    });
+                }
+            })
+        })
     </script>
 </head>
 
 <body style="margin:0;padding:0;" class="easyui-layout">
-        <div data-options="region:'north'," style="height:100px;position:relative;">
-            <h1 style="margin:20px 0 0 30px;">嘉富财商</h1>
-            <span style="margin:0 0 0 30px;vertical-align: middle;font-weight: 600;">运维</span>
-            <div style="position: absolute;bottom:5px;left:200px;">
-                <img style="border:1px solid #858484;width:25px;height:25px;cursor:poiner;vertical-align: bottom;" src="./image/head.png"
-                    onclick="
-                        $(this).parent().viewer({
-                            url: 'src'
-                        });"/>
-                <span style="margin-left:5px;">renxinwei</span>
-            </div>
+    <img id="doingTag" src="./image/doing.gif" style="width:100%;height:5px;position: absolute;top:0;z-index: 999999;display:none;" />
+
+    <div data-options="region:'north'," style="height:100px;position:relative;">
+        <h1 style="margin:20px 0 0 30px;">嘉富财商</h1>
+        <span style="margin:0 0 0 30px;vertical-align: middle;font-weight: 600;">运维</span>
+        <div style="position: absolute;bottom:5px;left:200px;">
+            <img style="border:1px solid #858484;width:25px;height:25px;cursor:pointer;" src="./image/head.png"
+                onclick="
+                    $(this).parent().viewer({
+                        url: 'src'
+                    });"/>
+            <span id="nickname" style="margin-left:5px;width:100px;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></span>
         </div>
-        <div data-options="region:'west',title:'菜单',split:true" style="width:200px;">
-            <ul id="menu" ></ul>
+    </div>
+    <div data-options="region:'west',title:'菜单',split:true" style="width:200px;">
+        <ul id="menu" ></ul>
+    </div>
+    <div data-options="region:'center'" style="background:#eee;">
+        <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;"></div>
+        <div id="tabsTools">
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-dustbin"
+                onclick="
+                    $.messager.confirm('确认', '确认关闭所有标签吗?', function(r){
+                        if (r){
+                            $($('#tabs').tabs('tabs')).each(function(index,ele){ $('#tabs').tabs('close',),index})
+                        }
+                    });">
+            </a>
         </div>
-        <div data-options="region:'center'" style="background:#eee;">
-            <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;"></div>
-            <div id="tabsTools">
-                <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-dustbin"
-                    onclick="
-                        $.messager.confirm('确认', '确认关闭所有标签吗?', function(r){
-                            if (r){
-                                $($('#tabs').tabs('tabs')).each(function(index,ele){ $('#tabs').tabs('close',),index})
-                            }
-                        });">
-                </a>
-            </div>
-        </div>
+    </div>
 </body>
 <script>
     $('#menu').tree({
@@ -71,8 +100,9 @@
             },{
                 id:"wenJuanGuanLi",
                 text:"问卷管理",
-                url:null,
-            },{
+                url:'./paper-manage.html',
+            },
+            {
                 id:"keFuGuanJianCi",
                 text:"客服关键词",
                 url:null,
@@ -99,12 +129,9 @@
                 location.href='./login.html'
                 return;
             }
-            $('#tabs').tabs('add',{
-                id:node.id,
-                title:node.text,
-                closable:true,
-                href:node.url,
-            });
+
+            project.newTab({id:node.id,title:node.text,url:node.url})
+           
         }
     });
   
