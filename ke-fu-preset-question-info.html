@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>嘉富财商-运维-预设问答信息</title>
+    <title>嘉富财商-运维-预设问题信息</title>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
@@ -33,7 +33,7 @@
             $('#doingTag').hide();
         },
         error:function(xhr){
-            layer.msg('网络错误<br/>'+xhr.status+'-'+xhr.statusText);
+            
         }
     })
 
@@ -120,14 +120,14 @@
         </thead>
         <tbody>
             <tr>
-                <td>预设问题名Id&nbsp;</td>
+                <td>问题Id&nbsp;</td>
                 <td>
                     <span id="keFuPresetQuestionId" style="margin-left:5px;"></span>
                     <img src="./favicon.svg" onload="$('#keFuPresetQuestionId').text(item.keFuPresetQuestionId||'')" style="display:none;"/>
                 </td>
             </tr>
             <tr>
-                <td>预设问题名&nbsp;</td>
+                <td>问题&nbsp;</td>
                 <td>
                     <input id="name" class="easyui-textbox" style="width:100%;height:200px;" 
                         data-options="
@@ -141,7 +141,7 @@
                 </td>
             </tr>
             <tr>
-                <td>回答&nbsp;</td>
+                <td>回复&nbsp;</td>
                 <td>
                     <input id="reply" class="easyui-textbox" style="width:100%;height:200px;" 
                         data-options="

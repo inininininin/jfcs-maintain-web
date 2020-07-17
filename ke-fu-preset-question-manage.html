@@ -33,7 +33,7 @@
             },
             error:function(xhr){
                 debugger
-                layer.msg('网络错误<br/>'+xhr.status+'-'+xhr.statusText);
+                
             }
         })
 
@@ -51,7 +51,10 @@
             $('#datagrid').datagrid({
                 columns: [[
                     {
-                        field: 'reply', title: '回复', width: 250, align: 'left', halign: 'center'
+                        field: 'reply', title: '回复', width: 250, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                            debugger
+                            return `<span style="width:100%;display:inline-block;" title="${value}">${value}</span>` ;
+                        }
                     },
                     {
                         field: 'orderNo', title: '排序', width: 100, align: 'right', halign: 'center', sortable: true
@@ -66,7 +69,7 @@
                 frozenColumns: [[
                     { field: 'ck', align: 'left', checkbox: true },
                     {
-                        field: 'name', title: '问题名', width: 250, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                        field: 'name', title: '问题', width: 250, align: 'left', halign: 'center', formatter: function (value, row, index) {
                             return `<a href="JavaScript:void(0)" style="width:100%;display:inline-block;" title="${value || ''}" 
                                         onclick="project.newTab({title:'预设问题:${value.substring(0, 10) + '...'}',url:'./ke-fu-preset-question-info.html?keFuPresetQuestionId=${row.keFuPresetQuestionId}'})"
                                     >${value}
