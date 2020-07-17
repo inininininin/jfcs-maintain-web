@@ -79,7 +79,7 @@
     <div data-options="region:'center'" style="background:#eee;">
         <div id="tabs" class="easyui-tabs" style="width:100%;height:100%;"></div>
         <div id="tabsTools">
-            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-dustbin"
+            <a href="javascript:void(0)" class="easyui-linkbutton" plain="true" iconCls="icon-clear"
                 onclick="
                     $.messager.confirm('确认', '确认关闭所有标签吗?', function(r){
                         if (r){
@@ -112,8 +112,8 @@
                 url:null,
             },{
                 id:"yuDingYiWenTi",
-                text:"预定义问题",
-                url:null,
+                text:"预设问答",
+                url:'./ke-fu-preset-question-manage.html',
             },{
                 id:"canShuPeiZhi",
                 text:"参数配置",

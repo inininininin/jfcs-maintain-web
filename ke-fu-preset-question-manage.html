@@ -2,7 +2,7 @@
 <html>
 
 <head lang="en">
-    <title>嘉富财商-运维-问卷管理</title>
+    <title>嘉富财商-运维-预设问题管理</title>
     <meta charset="UTF-8">
     <link rel="icon" href="./favicon.svg" type="image/svg" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -37,11 +37,8 @@
             }
         })
 
-        var queryStringObject = util.queryStringObject();
-        var queryParam = {
-            frozen:0
-        }
-        var currentItemList = [], sum = {}
+        var qso = util.queryStringObject();
+        var queryParam = {}, currentItemList = [], sum = {}
 
         $(document).ready(function(){
             $.post('/login-refresh',function(res){                
@@ -54,19 +51,10 @@
             $('#datagrid').datagrid({
                 columns: [[
                     {
-                        field: 'paperQuestionCount', title: '题数', width: 100, align: 'right', halign: 'center', formatter: function (value, row, index) {
-                            return `<a href="javascript:voie(0)" style="cursor:pointer;width:100%;display: inline-block;" onclick="project.newTab({title:'题目管理',url:'./paper-question-manage.html?paperId=${row.paperId}&paperName=${row.name}'})">${row.paperQuestionCount}</a>`;
-                        }
+                        field: 'reply', title: '回复', width: 250, align: 'left', halign: 'center'
                     },
                     {
-                        field: 'frozen', title: '冻结', width: 100, align: 'center', halign: 'center', formatter: function (value, row, index) {
-                            return value == 0 ? '否' :value == 1 ? `<span title="${row.frozenNote}" style="cursor:pointer;width:100%;display: inline-block;">是</span>` : '';
-                        }
-                    },
-                    {
-                        field: 'insertTime', title: '创建时间', width: 175, align: 'center', sortable: true, halign: 'center', formatter: function (value, row, index) {
-                            return value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : value;
-                        }
+                        field: 'orderNo', title: '排序', width: 100, align: 'right', halign: 'center', sortable: true
                     },
                     {
                         field: ' ', title: '操作', width: 175, align: 'left',  halign: 'center', formatter: function (value, row, index) {
@@ -78,9 +66,9 @@
                 frozenColumns: [[
                     { field: 'ck', align: 'left', checkbox: true },
                     {
-                        field: 'name', title: '问卷名', width: 250, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                        field: 'name', title: '问题名', width: 250, align: 'left', halign: 'center', formatter: function (value, row, index) {
                             return `<a href="JavaScript:void(0)" style="width:100%;display:inline-block;" title="${value || ''}" 
-                                        onclick="project.newTab({title:'问卷:${value.substring(0, 10) + '...'}',url:'./paper-info.html?paperId=${row.paperId}'})"
+                                        onclick="project.newTab({title:'预设问题:${value.substring(0, 10) + '...'}',url:'./ke-fu-preset-question-info.html?keFuPresetQuestionId=${row.keFuPresetQuestionId}'})"
                                     >${value}
                                     </a>`;
                         }, styler: function (value, row, index) {
@@ -88,7 +76,7 @@
                         }
                     }
                 ]],
-                idField: 'paperId',
+                idField: 'keFuPresetQuestionId',
                 toolbar: `#datagridToolBar`,
                 footer: `#datagridFoot`,
                 pagination: true,
@@ -111,12 +99,12 @@
                     queryParam.pn = param.page;
                     queryParam.sort = param.sort;
                     queryParam.order = param.order;
-                    $.get('/maintain/paper-list', queryParam, function (data) {
+                    $.get('/maintain/ke-fu-preset-question-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get('/maintain/paper-list-sum', queryParam, function (data) {
+                            $.get('/maintain/ke-fu-preset-question-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {
@@ -168,41 +156,15 @@
                         queryParam.kw=newValue
                     }" style="width:300px" />
             </div>
-
-            <div style="display:inline-block;">
-                <input id="queryParam.frozen" class="easyui-combobox" label="冻结:" labelPosition="left" labelAlign="right" style="width:300px" 
-                    data-options="
-                        value:queryParam.value,
-                        editable:false,panelHeight:'auto',
-                        data:[
-                            {
-                                text: '否',
-                                value: 0
-                            },
-                            {
-                                text: '是',
-                                value: 1
-                            }],
-                        iconWidth:20,
-                        icons:[{
-                        iconCls:'icon-clear',
-                        handler: function(e){
-                            $(e.data.target).combobox('setValue','');
-                        }
-                        }],
-                        onChange:function(newValue, oldValue){
-                            queryParam.frozen=newValue
-                        }" />
-            </div>
         </form>
     </div>
     <table id="datagrid" class="easyui-datagrid" style="width:100%;min-height:50px"></table>
     <div id="datagridFoot" style="padding:2px 5px;">
         <a href="JavaScript:void(0)" class="easyui-linkbutton"  iconCls="icon-add" plain="true"
             onclick="
-                project.newTab({title:'创建问卷',url:'./paper-insert.html'})
-            ">
-            创建问卷
+                project.newTab({title:'创建预设问题',url:'./ke-fu-preset-question-insert.html'})
+            "
+            >创建预设问题
         </a>
         <a href="JavaScript:void(0)" class="easyui-linkbutton"  iconCls="icon-edit" plain="true"
             onclick="
