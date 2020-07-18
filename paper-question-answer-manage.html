@@ -61,6 +61,9 @@
             $('#datagrid').datagrid({
                 columns: [[
                     {
+                        field: 'score', title: '分数', width: 100, align: 'right', halign: 'center', sortable: true
+                    },
+                    {
                         field: 'orderNo', title: '排序', width: 100, align: 'right', halign: 'center', sortable: true
                     },
                     {
@@ -112,12 +115,12 @@
                         queryParam.sort='orderNo'
                         queryParam.order='asc'
                     }
-                    $.get('/maintain/paper-question-answer-list', queryParam, function (data) {
+                    $.get('/maintain/paper-manage/paper-question-answer-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get('/maintain/paper-question-answer-list-sum', queryParam, function (data) {
+                            $.get('/maintain/paper-manage/paper-question-answer-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {

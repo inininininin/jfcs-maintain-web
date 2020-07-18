@@ -5,7 +5,7 @@
 
     <title>嘉富财商-运维-问卷-题目-创建选项</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
@@ -61,7 +61,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: '/maintain/paper-question-answer-insert',
+                    url: '/maintain/paper-manage/paper-question-answer-insert',
                     data: item,
                     success: function (res) {
                         debugger
@@ -115,6 +115,48 @@
                     <td>
                         <span id="paperName" style="margin-left:5px;"></span>
                         <img src="./favicon.svg" onload="$('#paperName').text(qso.paperName||'')" style="display:none;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>分数&nbsp;</td>
+                    <td>
+                        <input id="score" class="easyui-numberbox" style="width:100%" 
+                            data-options="
+                                value:item.score,
+                                precision:2,
+                                iconWidth:20,
+                                icons:[{
+                                    iconCls:'icon-clear',
+                                    handler: function(e){
+                                        $(e.data.target).textbox('setValue','');
+                                    }
+                                }],
+                                onChange:function(newValue, oldValue){
+                                    item.score=newValue
+                                }
+                            " 
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>序号&nbsp;</td>
+                    <td>
+                        <input id="orderNo" class="easyui-numberbox" style="width:100%" 
+                            data-options="
+                                value:item.orderNo,
+                                precision:2,
+                                iconWidth:20,
+                                icons:[{
+                                    iconCls:'icon-clear',
+                                    handler: function(e){
+                                        $(e.data.target).textbox('setValue','');
+                                    }
+                                }],
+                                onChange:function(newValue, oldValue){
+                                    item.orderNo=newValue
+                                }
+                            " 
+                        />
                     </td>
                 </tr>
             </tbody>

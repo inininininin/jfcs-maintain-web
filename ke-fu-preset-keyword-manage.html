@@ -99,12 +99,12 @@
                     queryParam.pn = param.page;
                     queryParam.sort = param.sort;
                     queryParam.order = param.order;
-                    $.get('/maintain/ke-fu-preset-keyword-list', queryParam, function (data) {
+                    $.get('/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get('/maintain/ke-fu-preset-keyword-list-sum', queryParam, function (data) {
+                            $.get('/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {

@@ -37,7 +37,7 @@
             }
         })
 
-        var queryStringObject = util.queryStringObject();
+        var qso = util.queryStringObject();
         var queryParam = {
             frozen:0
         }
@@ -56,11 +56,6 @@
                     {
                         field: 'paperQuestionCount', title: '题数', width: 100, align: 'right', halign: 'center', formatter: function (value, row, index) {
                             return `<a href="javascript:voie(0)" style="cursor:pointer;width:100%;display: inline-block;" onclick="project.newTab({title:'题目管理',url:'./paper-question-manage.html?paperId=${row.paperId}&paperName=${row.name}'})">${row.paperQuestionCount}</a>`;
-                        }
-                    },
-                    {
-                        field: 'frozen', title: '冻结', width: 100, align: 'center', halign: 'center', formatter: function (value, row, index) {
-                            return value == 0 ? '否' :value == 1 ? `<span title="${row.frozenNote}" style="cursor:pointer;width:100%;display: inline-block;">是</span>` : '';
                         }
                     },
                     {
@@ -111,12 +106,12 @@
                     queryParam.pn = param.page;
                     queryParam.sort = param.sort;
                     queryParam.order = param.order;
-                    $.get('/maintain/paper-list', queryParam, function (data) {
+                    $.get('/maintain/paper-manage/paper-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get('/maintain/paper-list-sum', queryParam, function (data) {
+                            $.get('/maintain/paper-manage/paper-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {
@@ -172,7 +167,7 @@
             <div style="display:inline-block;">
                 <input id="queryParam.frozen" class="easyui-combobox" label="冻结:" labelPosition="left" labelAlign="right" style="width:300px" 
                     data-options="
-                        value:queryParam.value,
+                        value:queryParam.frozen,
                         editable:false,panelHeight:'auto',
                         data:[
                             {

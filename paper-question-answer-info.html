@@ -5,7 +5,7 @@
 
     <title>嘉富财商-运维-问卷-题目-选项信息</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
@@ -43,7 +43,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/paper-question-answer-info?paperQuestionAnswerId=${qso.paperQuestionAnswerId}`,
+        url: `/maintain/paper-manage/paper-question-answer-info?paperQuestionAnswerId=${qso.paperQuestionAnswerId}`,
         async: false,
         success: function (res) {
             debugger
@@ -69,7 +69,7 @@
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: '/maintain/paper-question-answer-update',
+                        url: '/maintain/paper-manage/paper-question-answer-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -91,7 +91,7 @@
             if(r)
             $.ajax({
                 type: 'post',
-                url: '/maintain/paper-question-answer-list-delete',
+                url: '/maintain/paper-manage/paper-question-answer-list-delete',
                 data: {paperQuestionAnswerId:item.paperQuestionAnswerId,expectCount:1},
                 success: function (res) {
                     debugger
@@ -154,7 +154,27 @@
                     <img src="./favicon.svg" onload="$('#paperName').text(item.paperName||'')" style="display:none;"/>
                 </td>
             </tr>
-            
+            <tr>
+                <td>分数&nbsp;</td>
+                <td>
+                    <input id="score" class="easyui-numberbox" style="width:100%" 
+                        data-options="
+                            value:item.score,
+                            precision:2,
+                            iconWidth:20,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    $(e.data.target).textbox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.score=newValue
+                            }
+                        " 
+                    />
+                </td>
+            </tr>
             <tr>
                 <td>序号&nbsp;</td>
                 <td>

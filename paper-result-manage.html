@@ -125,12 +125,12 @@
                     if(!queryParam.sort){
                         
                     }
-                    $.get('/maintain/paper-result-list', queryParam, function (data) {
+                    $.get('/maintain/paper-manage/paper-result-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get('/maintain/paper-result-list-sum', queryParam, function (data) {
+                            $.get('/maintain/paper-manage/paper-result-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {

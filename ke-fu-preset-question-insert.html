@@ -5,7 +5,7 @@
 
     <title>嘉富财商-运维-创建预设问题</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
@@ -55,7 +55,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: '/maintain/ke-fu-preset-question-insert',
+                    url: '/maintain/ke-fu-preset-question-manage/ke-fu-preset-question-insert',
                     data: item,
                     success: function (res) {
                         debugger

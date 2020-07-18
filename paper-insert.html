@@ -5,7 +5,7 @@
 
     <title>嘉富财商-运维-创建问卷</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
@@ -37,8 +37,8 @@
         }
     })
 
-    var queryStringObject = util.queryStringObject();
-    var paper = {}
+    var qso = util.queryStringObject();
+    var item = {}
 
     $.parser.onComplete = function () {
         debugger
@@ -48,13 +48,13 @@
         debugger
        
     })
-    function insertPaper(){
+    function insertItem(){
         debugger
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: '/maintain/paper-insert',
-                    data: paper,
+                    url: '/maintain/paper-manage/paper-insert',
+                    data: item,
                     success: function (res) {
                         debugger
                         if (res.codeMsg)
@@ -84,7 +84,7 @@
                 <tr>
                     <td>问卷名&nbsp;</td>
                     <td><input id="name" class="easyui-textbox" style="width:100%" data-options="
-                        value:paper.name,
+                        value:item.name,
                         iconWidth:20,
                         icons:[{
                             iconCls:'icon-clear',
@@ -94,7 +94,7 @@
                             }
                         }],
                         onChange:function(newValue, oldValue){
-                            paper.name=newValue
+                            item.name=newValue
                         }" style="width:200px"></td>
                 </tr>
             </tbody>
@@ -102,7 +102,7 @@
         
         <div id="datagridFoot" style="padding:2px 5px;">
             <a id="createConfirm" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-ok"  plain="true" title="确认"
-                onclick="insertPaper()">确认</a>
+                onclick="insertItem()">确认</a>
             <a id="reset" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-reload"  plain="true" title="重置"
                 onclick="$.messager.confirm('提示','已编辑的数据将丢失, 确认继续吗?',function(){location.reload()})">重置</a>
         </div>

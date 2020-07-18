@@ -5,7 +5,7 @@
 
     <title>嘉富财商-运维-参数配置</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
@@ -26,7 +26,7 @@
 <script>
     debugger
     var qso = util.queryStringObject();
-    var item = {},userProtocolEditor,ruZhuGuideEditor
+    var item = {},userProtocolEditor,userProtocolEditorDoIs=1
 
     
     layer.config({offset: '200px'});
@@ -45,8 +45,8 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/config-info`,
-        data:{fieldId:'userProtocol,project,company,companyShortName,telephone,phone,address,email,icp,longitude,latitude,qq,wxQrcode,wx,wxOfficialQrcode,wxOfficial,stockCode,seoTitle,seoKeywords,seoDescription'},
+        url: `/maintain/config-manage/config-info`,
+        data:{name:'userProtocol,project,company,companyShortName,telephone,phone,address,email,icp,longitude,latitude,qq,wxQrcode,wx,wxOfficialQrcode,wxOfficial,stockCode,seoTitle,seoKeywords,seoDescription'},
         async: false,
         success: function (res) {
             debugger
@@ -79,9 +79,9 @@
     init_instance_callback : function(editor) {
         debugger;
         if(item.userProtocol)
-        $.get(item.userProtocol,function(res){
-            editor.setContent(res)
-        })
+            $.get(item.userProtocol,function(res){
+                editor.setContent(res)
+            })
     },
     file_picker_callback:function(callback,value,meta){
         debugger
@@ -144,27 +144,26 @@ function updateConfirm(){
     debugger
     $.messager.confirm('提示','确认修改吗?',function(r){
         if(r){
-            if(!item.userProtocol){
-            $.ajax({
-                type: 'post',
-                contentType:"text/plain",
-                url: '/upload-stream?'+$.param({'originalUrl':item.userProtocol,ext:'html'}),
-                async:false,
-                data: tinyMCE.editors[0].getContent(),
-                success: function (res) {
-                    debugger
-                    if (res.codeMsg)
-                        $.messager.alert('提示',res.codeMsg)
-                    if (res.code == 0) {
-                        item.userProtocol=res.data.url
-                    } 
-                }
-            })
-        }
-      
+            if(userProtocolEditorDoIs)
+                $.ajax({
+                    type: 'post',
+                    contentType:"text/plain",
+                    url: '/upload-stream?'+$.param({ext:'html'}),
+                    async:false,
+                    data: tinyMCE.editors[0].getContent(),
+                    success: function (res) {
+                        debugger
+                        if (res.codeMsg)
+                            $.messager.alert('提示',res.codeMsg)
+                        if (res.code == 0) {
+                            item.userProtocol=res.data.url
+                        } 
+                    }
+                })
+            
             $.ajax({
                             type: 'post',
-                            url: '/maintain/config-update',
+                            url: '/maintain/config-manage/config-update',
                             data: item,
                             success: function (res) {
                                 debugger
@@ -313,22 +312,6 @@ function updateConfirm(){
                         onChange:function(newValue, oldValue){
                             item.stockCode=newValue
                         }"></td>
-                </tr>
-                <tr>
-                    <td>icp&nbsp;</td>
-                    <td><input id="icp" class="easyui-textbox" style="width:100%" data-options="
-                        value:item.icp,
-                        iconWidth:20,
-                        icons:[{
-                            iconCls:'icon-clear',
-                            handler: function(e){
-                                debugger
-                                $(e.data.target).textbox('setValue','');
-                            }
-                        }],
-                        onChange:function(newValue, oldValue){
-                            item.icp=newValue
-                        }" ></td>
                 </tr>
                 <tr>
                     <td>电话&nbsp;</td>
@@ -512,28 +495,16 @@ function updateConfirm(){
                 </tr>
                 <tr>
                     <td>用户协议Url&nbsp;</td>
-                    <td><input id="userProtocol" class="easyui-textbox" style="width:100%" data-options="
-                        value:item.userProtocol,
-                        iconWidth:20,
-                        icons:[{
-                            iconCls:'icon-clear',
-                            handler: function(e){
-                                debugger
-                                $(e.data.target).textbox('setValue','');
-                            }
-                        }],
-                        onChange:function(newValue, oldValue){
-                            item.userProtocol=newValue
-                        }" ></td>
+                    <td>
+                        <span id="userProtocol" style="margin-left:5px;"></span>
+                        <img src="./favicon.svg" onload="$('#userProtocol').text(item.userProtocol||'')" style="display:none;"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>用户协议&nbsp;</td>
                     <td><textarea id="userProtocolContent" style="width: 100%;height:500px;padding:1px 4px" placeholder="
-                        必读: 您可以插入图片/音频/视频/优酷等网站视频。
-                        当插入的资源宽度设为'100%'时，为保证比例，请不要设置高度。
-                        若有不明处，请联系管理员。"></textarea></td>
+                        图片自适应: 宽度: 100%, 高度: 空."></textarea></td>
                 </tr>
-                
                 <tr>
                     <td>ICP&nbsp;</td>
                     <td><input id="icp" class="easyui-textbox" style="width:100%" data-options="
@@ -614,10 +585,10 @@ function updateConfirm(){
                 onclick="$('#update,#remove,#reload,#updatePasswordPageEntrance').hide();$('#updateConfirm,#updateCancel').show()">修改</a>
             <a id="reload" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-reload"  plain="true" title="刷新"
                 onclick="$.messager.confirm('提示','已编辑的数据将丢失, 确认继续吗?',function(r){if(r) location.reload()})">刷新</a>
-            <a id="updateConfirm" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-save"  plain="true" title="确认"
+            <a id="updateConfirm" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-ok"  plain="true" title="确认"
                 onclick="updateConfirm()">确认</a>
             <a id="updateCancel" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-cancel"  plain="true" title="取消"
-                onclick="$('#update,#remove,#reload,#updatePasswordPageEntrance').show();$('#updateConfirm,#updateCancel').hide()">取消</a>
+                onclick="location.reload()">取消</a>
             
         </div>
 

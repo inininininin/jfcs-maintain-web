@@ -113,12 +113,12 @@
                         queryParam.sort='orderNo,insertTime'
                         queryParam.order='asc,desc'
                     }
-                    $.get('/maintain/paper-question-list', queryParam, function (data) {
+                    $.get('/maintain/paper-manage/paper-question-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get('/maintain/paper-question-list-sum', queryParam, function (data) {
+                            $.get('/maintain/paper-manage/paper-question-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {

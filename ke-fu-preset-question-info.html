@@ -5,7 +5,7 @@
 
     <title>嘉富财商-运维-预设问题信息</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
@@ -43,7 +43,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/ke-fu-preset-question-info?keFuPresetQuestionId=${qso.keFuPresetQuestionId}`,
+        url: `/maintain/ke-fu-preset-question-manage/ke-fu-preset-question-info?keFuPresetQuestionId=${qso.keFuPresetQuestionId}`,
         async: false,
         success: function (res) {
             debugger
@@ -69,7 +69,7 @@
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: '/maintain/ke-fu-preset-question-update',
+                        url: '/maintain/ke-fu-preset-question-manage/ke-fu-preset-question-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -91,7 +91,7 @@
             if(r)
             $.ajax({
                 type: 'post',
-                url: '/maintain/ke-fu-preset-question-list-delete',
+                url: '/maintain/ke-fu-preset-question-manage/ke-fu-preset-question-list-delete',
                 data: {keFuPresetQuestionId:item.keFuPresetQuestionId,expectCount:1},
                 success: function (res) {
                     debugger
