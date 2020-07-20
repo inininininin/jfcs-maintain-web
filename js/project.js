@@ -26,3 +26,26 @@ project.newTab = function (param) {
 
 
 
+project.fenXianChengShou = function (value) {
+    if(value < 40)
+        return '低'
+    else if(40<= value < 60 )
+        return '中'
+    else if(60<= value < 79)
+        return '中高'
+    else if(80<= value <= 100)
+        return '高'
+   return ''
+}
+
+project.touZiLeiXing = function (value) {
+    if(value < 40)
+        return '保守'
+    else if(40<= value < 60 )
+        return '稳健'
+    else if(60<= value < 79)
+        return '积极'
+    else if(80<= value <= 100)
+        return '冒险'
+    return ''
+}

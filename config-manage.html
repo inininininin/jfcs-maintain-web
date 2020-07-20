@@ -88,7 +88,7 @@
     init_instance_callback : function(editor) {
         debugger;
         if(item.userProtocol)
-            $.get(config.root+item.userProtocol,function(res){
+            $.get(item.userProtocol,function(res){
                 editor.setContent(res)
             })
     },

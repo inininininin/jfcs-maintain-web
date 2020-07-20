@@ -82,21 +82,13 @@
                         }
                     },
                     {
-                        field: 'lastDoPaperResultName', title: '测评结果', width: 100, align: 'left', halign: 'center', formatter: function (value, row, index) {
-                            return `<a href="JavaScript:void(0)" style="width:100%;display:inline-block;" title="${value || ''}" 
-                                        onclick="
-                                        debugger
-                                            $.get(config.root+'/maintain/do-paper-info?doPaperId=${row.lastDoPaperId}',function(res){
-                                                debugger
-                                                if(res.codeMsg)
-                                                    layer.msg(res.codeMsg);
-                                                if(res.code==0){
-                                                    $.messager.alert('提示',JSON.stringify(res.data));
-                                                }
-                                            })
-                                        "
-                                        >${value || ''}
-                                    </a>`;
+                        field: 'questionnaireFengXianChengShouScore', title: '风险承受', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
+                            return value+' ('+ project.fengXianChengShou(value)+')';
+                        }
+                    },
+                    {
+                        field: 'questionnaireTouZiLeiXingScore', title: '投资类型', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
+                            return value+' ('+ project.touZiLeiXing(value)+')';
                         }
                     },
                     {
@@ -159,6 +151,35 @@
                     queryParam.pn = param.page;
                     queryParam.sort = param.sort;
                     queryParam.order = param.order;
+
+                    if(queryParam.fengXianChengShou ==1 ){
+                        queryParam.fengXianChengShouScoreFrom=null
+                        queryParam.fengXianChengShouScoreTo=40
+                    }else if(queryParam.fengXianChengShou ==2 ){
+                        queryParam.fengXianChengShouScoreFrom=40
+                        queryParam.fengXianChengShouScoreTo=59
+                    }else if(queryParam.fengXianChengShou ==3 ){
+                        queryParam.fengXianChengShouScoreFrom=60
+                        queryParam.fengXianChengShouScoreTo=79
+                    }else if(queryParam.fengXianChengShou ==4 ){
+                        queryParam.fengXianChengShouScoreFrom=80
+                        queryParam.fengXianChengShouScoreTo=101
+                    }
+
+                    if(queryParam.touZiLeiXing ==1 ){
+                        queryParam.touZiLeiXingFrom=null
+                        queryParam.touZiLeiXingTo=40
+                    }else if(queryParam.touZiLeiXing ==2 ){
+                        queryParam.touZiLeiXingFrom=40
+                        queryParam.touZiLeiXingTo=59
+                    }else if(queryParam.touZiLeiXing ==3 ){
+                        queryParam.touZiLeiXingFrom=60
+                        queryParam.touZiLeiXingTo=79
+                    }else if(queryParam.touZiLeiXing ==4 ){
+                        queryParam.touZiLeiXingFrom=80
+                        queryParam.touZiLeiXingTo=101
+                    }
+
                     $.get(config.root+'/maintain/user-manage/user-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
@@ -217,6 +238,73 @@
                     }" style="width:300px" />
             </div>
 
+            <div style="display:inline-block;">
+                <input id="queryParam.questionnaireFengXianChengShou" class="easyui-combobox" label="风险承受:" labelPosition="left" labelAlign="right" style="width:300px" 
+                    data-options="
+                        value:queryParam.questionnaireFengXianChengShou,
+                        editable:false,panelHeight:'auto',
+                        data:[
+                            {
+                                text: '低',
+                                value: '1'
+                            },
+                            {
+                                text: '中',
+                                value: '2'
+                            },
+                            {
+                                text: '中高',
+                                value: '3'
+                            },
+                            {
+                                text: '高',
+                                value: '4'
+                            }],
+                        iconWidth:20,
+                        icons:[{
+                        iconCls:'icon-clear',
+                        handler: function(e){
+                            $(e.data.target).combobox('setValue','');
+                        }
+                        }],
+                        onChange:function(newValue, oldValue){
+                            queryParam.questionnaireFengXianChengShou=newValue
+                        }" />
+            </div>
+
+            <div style="display:inline-block;">
+                <input id="queryParam.questionnaireTouZiLeiXing" class="easyui-combobox" label="投资类型:" labelPosition="left" labelAlign="right" style="width:300px" 
+                    data-options="
+                        value:queryParam.questionnaireTouZiLeiXing,
+                        editable:false,panelHeight:'auto',
+                        data:[
+                            {
+                                text: '低',
+                                value: '1'
+                            },
+                            {
+                                text: '中',
+                                value: '2'
+                            },
+                            {
+                                text: '中高',
+                                value: '3'
+                            },
+                            {
+                                text: '高',
+                                value: '4'
+                            }],
+                        iconWidth:20,
+                        icons:[{
+                        iconCls:'icon-clear',
+                        handler: function(e){
+                            $(e.data.target).combobox('setValue','');
+                        }
+                        }],
+                        onChange:function(newValue, oldValue){
+                            queryParam.questionnaireTouZiLeiXing=newValue
+                        }" />
+            </div>
             <div style="display:inline-block;">
                 <input id="queryParam.realnameCertificationIs" class="easyui-combobox" label="实名:" labelPosition="left" labelAlign="right" style="width:300px" 
                     data-options="
