@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>嘉富财商-运维-问卷结果配置</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    <script src="https://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="./jquery-viewer/js/viewer.min.js"></script>
+    <link rel="stylesheet" href="./jquery-viewer/css/viewer.min.css">
+    <script src="./jquery-viewer/js/viewer-jquery.min.js"></script>
+    <script charset="utf-8" src="./tinymce/tinymce.min.js"></script>
+    <script src="./layer/layer.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/project.js"></script>
+    <link rel="stylesheet" href="./css/project.css" />
+    <script src="./js/moment.js"></script>
+    <style></style>
+</head>
+
+<script>
+    debugger
+    var qso = util.queryStringObject();
+    var item = {}
+
+    
+    layer.config({offset: '200px'});
+    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        $('#doingTag').show();
+    });
+    $.ajaxSetup({
+        complete:function(){
+            $('#doingTag').hide();
+        },
+        error:function(xhr){
+            
+        }
+    })
+
+
+    $.ajax({
+        type: 'get',
+        url: `/maintain/questionnaire-result-manage/questionnaire-result-info`,
+        async: false,
+        success: function (res) {
+            debugger
+            if (res.codeMsg)
+                $.messager.alert('提示',res.codeMsg);
+            if (res.code == 0) {
+                item = res.data;
+            }
+        }
+    })
+
+
+    $.parser.onComplete = function () {
+        debugger
+    }
+
+
+    $(document).ready(function(){
+        debugger
+    })
+function updateConfirm(){
+    debugger
+    $.messager.confirm('提示','确认修改吗?',function(r){
+        if(r){
+            $.ajax({
+                            type: 'post',
+                            url: '/maintain/questionnaire-result-manage/questionnaire-result-update',
+                            data: item,
+                            success: function (res) {
+                                debugger
+                                if (res.codeMsg)
+                                    $.messager.alert('提示',res.codeMsg);
+                                if (res.code == 0) {
+                                    if (!res.codeMsg)
+                                          $.messager.alert('提示','修改成功',null,function(){ location.reload()});
+                                } 
+                            }
+                        })
+        }
+      
+    })
+    
+}
+        
+
+
+
+
+</script>
+
+<body style="margin:0;padding:0;">
+    
+        <table id="datagrid"  data-options="singleSelect:true, footer: '#datagridFoot',title:'问卷结果'">
+            <thead>
+                <tr>
+                    <th data-options="field:'name',width:200,align:'right'">属性&nbsp;</th>
+                    <th data-options="field:'value',width:500">值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>40分以下+保守型&nbsp;</td></tr>
+                <tr>
+                    <td>市场快评&nbsp;</td>
+                    <td>
+                        <div id="result1Pic1">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result1Pic1 [name=value]').attr('src',item.result1Pic1).parent().viewer({url: 'src',});if(item.result1Pic1) $('#result1Pic1 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result1Pic1=res.data.url 
+                                                $(target).prev().attr('src',item.result1Pic1).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result1Pic1='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>规划方案&nbsp;</td>
+                    <td>
+                        <div id="result1Pic2">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result1Pic2 [name=value]').attr('src',item.result1Pic2).parent().viewer({url: 'src',});if(item.result1Pic2) $('#result1Pic2 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result1Pic2=res.data.url 
+                                                $(target).prev().attr('src',item.result1Pic2).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result1Pic2='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>规划建议&nbsp;</td>
+                    <td>
+                        <div id="result1Pic3">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result1Pic3 [name=value]').attr('src',item.result1Pic3).parent().viewer({url: 'src',});if(item.result1Pic3) $('#result1Pic3 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result1Pic3=res.data.url 
+                                                $(target).prev().attr('src',item.result1Pic3).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result1Pic3='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr><td>40-79分+稳健型&nbsp;</td></tr>
+                <tr>
+                    <td>市场快评&nbsp;</td>
+                    <td>
+                        <div id="result2Pic1">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result2Pic1 [name=value]').attr('src',item.result2Pic1).parent().viewer({url: 'src',});if(item.result2Pic1) $('#result2Pic1 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result2Pic1=res.data.url 
+                                                $(target).prev().attr('src',item.result2Pic1).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result2Pic1='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>规划方案&nbsp;</td>
+                    <td>
+                        <div id="result2Pic2">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result2Pic2 [name=value]').attr('src',item.result2Pic2).parent().viewer({url: 'src',});if(item.result2Pic2) $('#result2Pic2 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result2Pic2=res.data.url 
+                                                $(target).prev().attr('src',item.result2Pic2).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result2Pic2='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>规划建议&nbsp;</td>
+                    <td>
+                        <div id="result2Pic3">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result2Pic3 [name=value]').attr('src',item.result2Pic3).parent().viewer({url: 'src',});if(item.result2Pic3) $('#result2Pic3 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result2Pic3=res.data.url 
+                                                $(target).prev().attr('src',item.result2Pic3).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result2Pic3='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr><td>60-100+积极型，冒险型&nbsp;</td></tr>
+                <tr>
+                    <td>市场快评&nbsp;</td>
+                    <td>
+                        <div id="result3Pic1">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result3Pic1 [name=value]').attr('src',item.result3Pic1).parent().viewer({url: 'src',});if(item.result3Pic1) $('#result3Pic1 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result3Pic1=res.data.url 
+                                                $(target).prev().attr('src',item.result3Pic1).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result3Pic1='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>规划方案&nbsp;</td>
+                    <td>
+                        <div id="result3Pic2">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result3Pic2 [name=value]').attr('src',item.result3Pic2).parent().viewer({url: 'src',});if(item.result3Pic2) $('#result3Pic2 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result3Pic2=res.data.url 
+                                                $(target).prev().attr('src',item.result3Pic2).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result3Pic2='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>规划建议&nbsp;</td>
+                    <td>
+                        <div id="result3Pic3">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result3Pic3 [name=value]').attr('src',item.result3Pic3).parent().viewer({url: 'src',});if(item.result3Pic3) $('#result3Pic3 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result3Pic3=res.data.url 
+                                                $(target).prev().attr('src',item.result3Pic3).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result3Pic3='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr><td>40分以下+保守型&nbsp;</td></tr>
+                <tr>
+                    <td>市场快评&nbsp;</td>
+                    <td>
+                        <div id="result4Pic1">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result4Pic1 [name=value]').attr('src',item.result4Pic1).parent().viewer({url: 'src',});if(item.result4Pic1) $('#result4Pic1 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result4Pic1=res.data.url 
+                                                $(target).prev().attr('src',item.result4Pic1).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result4Pic1='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>规划方案&nbsp;</td>
+                    <td>
+                        <div id="result4Pic2">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result4Pic2 [name=value]').attr('src',item.result4Pic2).parent().viewer({url: 'src',});if(item.result4Pic2) $('#result4Pic2 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result4Pic2=res.data.url 
+                                                $(target).prev().attr('src',item.result4Pic2).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result4Pic2='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>规划建议&nbsp;</td>
+                    <td>
+                        <div id="result4Pic3">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result4Pic3 [name=value]').attr('src',item.result4Pic3).parent().viewer({url: 'src',});if(item.result4Pic3) $('#result4Pic3 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result4Pic3=res.data.url 
+                                                $(target).prev().attr('src',item.result4Pic3).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result4Pic3='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr><td>40-79分+稳健型&nbsp;</td></tr>
+                <tr>
+                    <td>市场快评&nbsp;</td>
+                    <td>
+                        <div id="result5Pic1">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result5Pic1 [name=value]').attr('src',item.result5Pic1).parent().viewer({url: 'src',});if(item.result5Pic1) $('#result5Pic1 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result5Pic1=res.data.url 
+                                                $(target).prev().attr('src',item.result5Pic1).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result5Pic1='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>规划方案&nbsp;</td>
+                    <td>
+                        <div id="result5Pic2">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result5Pic2 [name=value]').attr('src',item.result5Pic2).parent().viewer({url: 'src',});if(item.result5Pic2) $('#result5Pic2 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result5Pic2=res.data.url 
+                                                $(target).prev().attr('src',item.result5Pic2).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result5Pic2='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>规划建议&nbsp;</td>
+                    <td>
+                        <div id="result5Pic3">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result5Pic3 [name=value]').attr('src',item.result5Pic3).parent().viewer({url: 'src',});if(item.result5Pic3) $('#result5Pic3 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result5Pic3=res.data.url 
+                                                $(target).prev().attr('src',item.result5Pic3).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result5Pic3='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr><td>60-100+积极型，冒险型&nbsp;</td></tr>
+                <tr>
+                    <td>市场快评&nbsp;</td>
+                    <td>
+                        <div id="result6Pic1">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result6Pic1 [name=value]').attr('src',item.result6Pic1).parent().viewer({url: 'src',});if(item.result6Pic1) $('#result6Pic1 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result6Pic1=res.data.url 
+                                                $(target).prev().attr('src',item.result6Pic1).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result6Pic1='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>规划方案&nbsp;</td>
+                    <td>
+                        <div id="result6Pic2">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result6Pic2 [name=value]').attr('src',item.result6Pic2).parent().viewer({url: 'src',});if(item.result6Pic2) $('#result6Pic2 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result6Pic2=res.data.url 
+                                                $(target).prev().attr('src',item.result6Pic2).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result6Pic2='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>规划建议&nbsp;</td>
+                    <td>
+                        <div id="result6Pic3">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#result6Pic3 [name=value]').attr('src',item.result6Pic3).parent().viewer({url: 'src',});if(item.result6Pic3) $('#result6Pic3 [name=value]').show();" />
+                            <img name="value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.result6Pic3=res.data.url 
+                                                $(target).prev().attr('src',item.result6Pic3).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.result6Pic3='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+
+        <div id="datagridFoot" style="padding:2px 5px;">
+            <a id="update" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" title="修改" 
+                onclick="$('#update,#remove,#reload,#updatePasswordPageEntrance').hide();$('#updateConfirm,#updateCancel').show()">修改</a>
+            <a id="reload" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-reload"  plain="true" title="刷新"
+                onclick="$.messager.confirm('提示','已编辑的数据将丢失, 确认继续吗?',function(r){if(r) location.reload()})">刷新</a>
+            <a id="updateConfirm" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-ok"  plain="true" title="确认"
+                onclick="updateConfirm()">确认</a>
+            <a id="updateCancel" href="JavaScript:void(0)" class="easyui-linkbutton" style="display:none;" iconCls="icon-cancel"  plain="true" title="取消"
+                onclick="location.reload()">取消</a>
+            
+        </div>
+
+</body>
+<script>
+        $('#datagrid').datagrid()
+</script>
+
+</html>

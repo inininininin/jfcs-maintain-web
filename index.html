@@ -98,9 +98,9 @@
                 text:"用户管理",
                 url:'./user-manage.html',
             },{
-                id:"wenJuanGuanLi",
-                text:"问卷管理",
-                url:'./paper-manage.html',
+                id:"wenJuanJieGuoPeiZhi",
+                text:"问卷结果配置",
+                url:'./questionnaire-result-manage.html',
             },
             {
                 id:"keFuGuanJianCi",
@@ -146,7 +146,7 @@
     }
 
     $(document).ready(function () {
-        var node = $('#menu').tree('find', 'gaiLan');
+        var node = $('#menu').tree('find', 'yongHuGuanLi');
         $('#menu').tree('select', node.target);
     });
 
