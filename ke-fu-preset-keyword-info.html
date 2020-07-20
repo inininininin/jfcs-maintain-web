@@ -23,6 +23,14 @@
 </head>
 
 <script>
+var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
 
     layer.config({offset: '200px'});
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -43,7 +51,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-info?keFuPresetKeywordId=${qso.keFuPresetKeywordId}`,
+        url: Config.root+`/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-info?keFuPresetKeywordId=${qso.keFuPresetKeywordId}`,
         async: false,
         success: function (res) {
             debugger
@@ -69,7 +77,7 @@
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: '/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-update',
+                        url: Config.root+'/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -91,7 +99,7 @@
             if(r)
             $.ajax({
                 type: 'post',
-                url: '/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-list-delete',
+                url: Config.root+'/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-list-delete',
                 data: {keFuPresetKeywordId:item.keFuPresetKeywordId,expectCount:1},
                 success: function (res) {
                     debugger

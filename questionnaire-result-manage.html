@@ -25,6 +25,15 @@
 
 <script>
     debugger
+    var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
+
     var qso = util.queryStringObject();
     var item = {}
 
@@ -45,7 +54,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/questionnaire-result-manage/questionnaire-result-info`,
+        url: Config.root+`/maintain/questionnaire-result-manage/questionnaire-result-info`,
         async: false,
         success: function (res) {
             debugger
@@ -72,7 +81,7 @@ function updateConfirm(){
         if(r){
             $.ajax({
                             type: 'post',
-                            url: '/maintain/questionnaire-result-manage/questionnaire-result-update',
+                            url: Config.root+'/maintain/questionnaire-result-manage/questionnaire-result-update',
                             data: item,
                             success: function (res) {
                                 debugger
@@ -121,7 +130,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -163,7 +172,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -206,7 +215,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -251,7 +260,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -293,7 +302,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -336,7 +345,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -381,7 +390,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -423,7 +432,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -466,7 +475,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -511,7 +520,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -553,7 +562,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -596,7 +605,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -641,7 +650,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -683,7 +692,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -726,7 +735,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -770,7 +779,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -812,7 +821,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -855,7 +864,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,

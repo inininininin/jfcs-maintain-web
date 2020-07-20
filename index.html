@@ -24,6 +24,14 @@
     </style>
 
     <script>
+        var config = null;
+        $.ajax({
+            url:'./config.json',
+            async:false,
+            success:function(res){
+                config=res;
+            }
+        })
 
         layer.config({offset: '200px'});
         $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -40,7 +48,7 @@
 
         var login
         $(document).ready(function(){
-            $.post('/login-refresh',function(res){                
+            $.post(Config.root+'/login-refresh',function(res){                
                 if(res.code==0){
                     login = res.data;
                     $('#nickname').text(login.nickname)

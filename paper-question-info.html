@@ -23,6 +23,14 @@
 </head>
 
 <script>
+var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
 
     layer.config({offset: '200px'});
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -43,7 +51,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/paper-manage/paper-question-info?paperQuestionId=${qso.paperQuestionId}`,
+        url: Config.root+`/maintain/paper-manage/paper-question-info?paperQuestionId=${qso.paperQuestionId}`,
         async: false,
         success: function (res) {
             debugger
@@ -69,7 +77,7 @@
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: '/maintain/paper-manage/paper-question-update',
+                        url: Config.root+'/maintain/paper-manage/paper-question-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -91,7 +99,7 @@
             if(r)
             $.ajax({
                 type: 'post',
-                url: '/maintain/paper-manage/paper-question-list-delete',
+                url: Config.root+'/maintain/paper-manage/paper-question-list-delete',
                 data: {paperQuestionId:item.paperQuestionId,expectCount:1},
                 success: function (res) {
                     debugger

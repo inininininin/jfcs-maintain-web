@@ -1,5 +1,4 @@
 var project = {}
-
 project.newTab = function (param) {
     var tabs = $('#tabs').length == 0 ? parent.$('#tabs') : $('#tabs')
 
@@ -24,3 +23,6 @@ project.newTab = function (param) {
         ]
     });
 }
+
+
+

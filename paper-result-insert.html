@@ -23,6 +23,15 @@
 </head>
 
 <script>
+    var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
+
     layer.config({offset: '200px'});
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
         $('#doingTag').show();
@@ -57,7 +66,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: '/maintain/paper-manage/paper-result-insert',
+                    url: Config.root+'/maintain/paper-manage/paper-result-insert',
                     data: item,
                     success: function (res) {
                         debugger
@@ -167,7 +176,7 @@
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?',
+                                        url: Config.root+'/upload-file?',
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -209,7 +218,7 @@
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?',
+                                        url: Config.root+'/upload-file?',
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -251,7 +260,7 @@
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?',
+                                        url: Config.root+'/upload-file?',
                                         type: 'POST',
                                         data: fd,
                                         cache: false,

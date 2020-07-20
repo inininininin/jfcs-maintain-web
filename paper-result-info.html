@@ -23,6 +23,14 @@
 </head>
 
 <script>
+var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
 
     layer.config({offset: '200px'});
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -43,7 +51,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/paper-manage/paper-result-info?paperResultId=${qso.paperResultId}`,
+        url: Config.root+`/maintain/paper-manage/paper-result-info?paperResultId=${qso.paperResultId}`,
         async: false,
         success: function (res) {
             debugger
@@ -69,7 +77,7 @@
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: '/maintain/paper-manage/paper-result-update',
+                        url: Config.root+'/maintain/paper-manage/paper-result-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -91,7 +99,7 @@
             if(r)
             $.ajax({
                 type: 'post',
-                url: '/maintain/paper-manage/paper-result-list-delete',
+                url: Config.root+'/maintain/paper-manage/paper-result-list-delete',
                 data: {paperResultId:item.paperResultId,expectCount:1},
                 success: function (res) {
                     debugger
@@ -208,7 +216,7 @@
                                 var fd = new FormData()
                                 fd.append('file', file);
                                 $.ajax({
-                                    url: '/upload-file?',
+                                    url: Config.root+'/upload-file?',
                                     type: 'POST',
                                     data: fd,
                                     cache: false,
@@ -250,7 +258,7 @@
                                 var fd = new FormData()
                                 fd.append('file', file);
                                 $.ajax({
-                                    url: '/upload-file?',
+                                    url: Config.root+'/upload-file?',
                                     type: 'POST',
                                     data: fd,
                                     cache: false,
@@ -292,7 +300,7 @@
                                 var fd = new FormData()
                                 fd.append('file', file);
                                 $.ajax({
-                                    url: '/upload-file?',
+                                    url: Config.root+'/upload-file?',
                                     type: 'POST',
                                     data: fd,
                                     cache: false,

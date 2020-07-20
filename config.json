@@ -1,4 +1,5 @@
 {                              
-    "version":"20.0720.2248",
+    "root":"/jfcs",
+    "version":"20.0720.2335",
     "versionIntro":"修复了现有的BUG\n优化了一些体验"
 }  

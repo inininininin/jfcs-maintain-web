@@ -23,6 +23,15 @@
 </head>
 
 <script>
+    var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
+
      layer.config({offset: '200px'});
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
         $('#doingTag').show();
@@ -53,7 +62,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: '/maintain/user-manage/user-insert',
+                    url: Config.root+'/maintain/user-manage/user-insert',
                     data: item,
                     success: function (res) {
                         debugger

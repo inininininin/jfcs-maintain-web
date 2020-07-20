@@ -25,6 +25,15 @@
 
 <script>
     debugger
+    var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
+
     var qso = util.queryStringObject();
     var item = {},userProtocolEditor,userProtocolEditorDoIs=1
 
@@ -45,7 +54,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/config-manage/config-info`,
+        url: Config.root+`/maintain/config-manage/config-info`,
         data:{name:'userProtocol,project,company,companyShortName,telephone,phone,address,email,icp,longitude,latitude,qq,wxQrcode,wx,wxOfficialQrcode,wxOfficial,stockCode,seoTitle,seoKeywords,seoDescription'},
         async: false,
         success: function (res) {
@@ -79,7 +88,7 @@
     init_instance_callback : function(editor) {
         debugger;
         if(item.userProtocol)
-            $.get(item.userProtocol,function(res){
+            $.get(Config.root+item.userProtocol,function(res){
                 editor.setContent(res)
             })
     },
@@ -92,7 +101,7 @@
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -148,7 +157,7 @@ function updateConfirm(){
                 $.ajax({
                     type: 'post',
                     contentType:"text/plain",
-                    url: '/upload-stream?'+$.param({ext:'html'}),
+                    url: Config.root+'/upload-stream?'+$.param({ext:'html'}),
                     async:false,
                     data: tinyMCE.editors[0].getContent(),
                     success: function (res) {
@@ -163,7 +172,7 @@ function updateConfirm(){
             
             $.ajax({
                             type: 'post',
-                            url: '/maintain/config-manage/config-update',
+                            url: Config.root+'/maintain/config-manage/config-update',
                             data: item,
                             success: function (res) {
                                 debugger
@@ -407,7 +416,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -465,7 +474,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: '/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,

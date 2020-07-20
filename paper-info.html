@@ -23,6 +23,14 @@
 </head>
 
 <script>
+var config = null;
+    $.ajax({
+        url:'./config.json',
+        async:false,
+        success:function(res){
+            config=res;
+        }
+    })
 
     layer.config({offset: '200px'});
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -43,7 +51,7 @@
 
     $.ajax({
         type: 'get',
-        url: `/maintain/paper-manage/paper-info?paperId=${qso.paperId}`,
+        url: Config.root+`/maintain/paper-manage/paper-info?paperId=${qso.paperId}`,
         async: false,
         success: function (res) {
             debugger
@@ -69,7 +77,7 @@
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: '/maintain/paper-manage/paper-update',
+                        url: Config.root+'/maintain/paper-manage/paper-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -91,7 +99,7 @@
             if(r)
             $.ajax({
                 type: 'post',
-                url: '/maintain/paper-manage/paper-list-delete',
+                url: Config.root+'/maintain/paper-manage/paper-list-delete',
                 data: {paperId:item.paperId,expectCount:1},
                 success: function (res) {
                     debugger
@@ -115,7 +123,7 @@
             if(r)
             $.ajax({
                                 type: 'post',
-                                url: '/maintain/paper-manage/paper-frozen',
+                                url: Config.root+'/maintain/paper-manage/paper-frozen',
                                 data: {paperId:item.paperId,reason:reason,expectedItemCount:1},
                                 success: function (res) {
                                     debugger
@@ -139,7 +147,7 @@
             if(r)
             $.ajax({
                                 type: 'post',
-                                url: '/maintain/paper-manage/paper-unfrozen',
+                                url: Config.root+'/maintain/paper-manage/paper-unfrozen',
                                 data: {paperId:item.paperId,expectedItemCount:1},
                                 success: function (res) {
                                     debugger
