@@ -51,7 +51,7 @@ var config = null;
 
     $.ajax({
         type: 'get',
-        url: Config.root+`/maintain/paper-manage/paper-result-info?paperResultId=${qso.paperResultId}`,
+        url: config.root+`/maintain/paper-manage/paper-result-info?paperResultId=${qso.paperResultId}`,
         async: false,
         success: function (res) {
             debugger
@@ -77,7 +77,7 @@ var config = null;
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: Config.root+'/maintain/paper-manage/paper-result-update',
+                        url: config.root+'/maintain/paper-manage/paper-result-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -99,7 +99,7 @@ var config = null;
             if(r)
             $.ajax({
                 type: 'post',
-                url: Config.root+'/maintain/paper-manage/paper-result-list-delete',
+                url: config.root+'/maintain/paper-manage/paper-result-list-delete',
                 data: {paperResultId:item.paperResultId,expectCount:1},
                 success: function (res) {
                     debugger
@@ -216,7 +216,7 @@ var config = null;
                                 var fd = new FormData()
                                 fd.append('file', file);
                                 $.ajax({
-                                    url: Config.root+'/upload-file?',
+                                    url: config.root+'/upload-file?',
                                     type: 'POST',
                                     data: fd,
                                     cache: false,
@@ -258,7 +258,7 @@ var config = null;
                                 var fd = new FormData()
                                 fd.append('file', file);
                                 $.ajax({
-                                    url: Config.root+'/upload-file?',
+                                    url: config.root+'/upload-file?',
                                     type: 'POST',
                                     data: fd,
                                     cache: false,
@@ -300,7 +300,7 @@ var config = null;
                                 var fd = new FormData()
                                 fd.append('file', file);
                                 $.ajax({
-                                    url: Config.root+'/upload-file?',
+                                    url: config.root+'/upload-file?',
                                     type: 'POST',
                                     data: fd,
                                     cache: false,

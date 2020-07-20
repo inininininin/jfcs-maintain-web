@@ -64,7 +64,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: Config.root+'/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-insert',
+                    url: config.root+'/maintain/ke-fu-preset-keyword-manage/ke-fu-preset-keyword-insert',
                     data: item,
                     success: function (res) {
                         debugger

@@ -54,7 +54,7 @@
 
     $.ajax({
         type: 'get',
-        url: Config.root+`/maintain/config-manage/config-info`,
+        url: config.root+`/maintain/config-manage/config-info`,
         data:{name:'userProtocol,project,company,companyShortName,telephone,phone,address,email,icp,longitude,latitude,qq,wxQrcode,wx,wxOfficialQrcode,wxOfficial,stockCode,seoTitle,seoKeywords,seoDescription'},
         async: false,
         success: function (res) {
@@ -88,7 +88,7 @@
     init_instance_callback : function(editor) {
         debugger;
         if(item.userProtocol)
-            $.get(Config.root+item.userProtocol,function(res){
+            $.get(config.root+item.userProtocol,function(res){
                 editor.setContent(res)
             })
     },
@@ -101,7 +101,7 @@
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -157,7 +157,7 @@ function updateConfirm(){
                 $.ajax({
                     type: 'post',
                     contentType:"text/plain",
-                    url: Config.root+'/upload-stream?'+$.param({ext:'html'}),
+                    url: config.root+'/upload-stream?'+$.param({ext:'html'}),
                     async:false,
                     data: tinyMCE.editors[0].getContent(),
                     success: function (res) {
@@ -172,7 +172,7 @@ function updateConfirm(){
             
             $.ajax({
                             type: 'post',
-                            url: Config.root+'/maintain/config-manage/config-update',
+                            url: config.root+'/maintain/config-manage/config-update',
                             data: item,
                             success: function (res) {
                                 debugger
@@ -416,7 +416,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,
@@ -474,7 +474,7 @@ function updateConfirm(){
                                     var fd = new FormData()
                                     fd.append('file', file);
                                     $.ajax({
-                                        url: Config.root+'/upload-file?' + $.param({ quality: 0.8 }),
+                                        url: config.root+'/upload-file?' + $.param({ quality: 0.8 }),
                                         type: 'POST',
                                         data: fd,
                                         cache: false,

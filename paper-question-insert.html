@@ -66,7 +66,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: Config.root+'/maintain/paper-manage/paper-question-insert',
+                    url: config.root+'/maintain/paper-manage/paper-question-insert',
                     data: item,
                     success: function (res) {
                         debugger

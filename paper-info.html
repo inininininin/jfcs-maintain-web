@@ -51,7 +51,7 @@ var config = null;
 
     $.ajax({
         type: 'get',
-        url: Config.root+`/maintain/paper-manage/paper-info?paperId=${qso.paperId}`,
+        url: config.root+`/maintain/paper-manage/paper-info?paperId=${qso.paperId}`,
         async: false,
         success: function (res) {
             debugger
@@ -77,7 +77,7 @@ var config = null;
             if(r){
                 $.ajax({
                         type: 'post',
-                        url: Config.root+'/maintain/paper-manage/paper-update',
+                        url: config.root+'/maintain/paper-manage/paper-update',
                         data: item,
                         success: function (res) {
                             debugger
@@ -99,7 +99,7 @@ var config = null;
             if(r)
             $.ajax({
                 type: 'post',
-                url: Config.root+'/maintain/paper-manage/paper-list-delete',
+                url: config.root+'/maintain/paper-manage/paper-list-delete',
                 data: {paperId:item.paperId,expectCount:1},
                 success: function (res) {
                     debugger
@@ -123,7 +123,7 @@ var config = null;
             if(r)
             $.ajax({
                                 type: 'post',
-                                url: Config.root+'/maintain/paper-manage/paper-frozen',
+                                url: config.root+'/maintain/paper-manage/paper-frozen',
                                 data: {paperId:item.paperId,reason:reason,expectedItemCount:1},
                                 success: function (res) {
                                     debugger
@@ -147,7 +147,7 @@ var config = null;
             if(r)
             $.ajax({
                                 type: 'post',
-                                url: Config.root+'/maintain/paper-manage/paper-unfrozen',
+                                url: config.root+'/maintain/paper-manage/paper-unfrozen',
                                 data: {paperId:item.paperId,expectedItemCount:1},
                                 success: function (res) {
                                     debugger

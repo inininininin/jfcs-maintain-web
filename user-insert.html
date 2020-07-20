@@ -62,7 +62,7 @@
         $.messager.confirm('提示','确认创建吗?',function(){
             $.ajax({
                     type: 'post',
-                    url: Config.root+'/maintain/user-manage/user-insert',
+                    url: config.root+'/maintain/user-manage/user-insert',
                     data: item,
                     success: function (res) {
                         debugger

@@ -53,7 +53,7 @@
         var currentItemList = [], sum = {}
 
         $(document).ready(function(){
-            $.post(Config.root+'/login-refresh',function(res){                
+            $.post(config.root+'/login-refresh',function(res){                
                 if(res.code==0){
                     
                 }else{
@@ -86,7 +86,7 @@
                             return `<a href="JavaScript:void(0)" style="width:100%;display:inline-block;" title="${value || ''}" 
                                         onclick="
                                         debugger
-                                            $.get(Config.root+'/maintain/do-paper-info?doPaperId=${row.lastDoPaperId}',function(res){
+                                            $.get(config.root+'/maintain/do-paper-info?doPaperId=${row.lastDoPaperId}',function(res){
                                                 debugger
                                                 if(res.codeMsg)
                                                     layer.msg(res.codeMsg);
@@ -159,12 +159,12 @@
                     queryParam.pn = param.page;
                     queryParam.sort = param.sort;
                     queryParam.order = param.order;
-                    $.get(Config.root+'/maintain/user-manage/user-list', queryParam, function (data) {
+                    $.get(config.root+'/maintain/user-manage/user-list', queryParam, function (data) {
                         if (data.codeMsg)
                             $.messager.alert('提示',data.codeMsg);
                         if (data.code == 0) {
                             currentItemList = data.data.itemList;
-                            $.get(Config.root+'/maintain/user-manage/user-list-sum', queryParam, function (data) {
+                            $.get(config.root+'/maintain/user-manage/user-list-sum', queryParam, function (data) {
                                 if (data.codeMsg)
                                     $.messager.alert('提示',data.codeMsg);
                                 if (data.code == 0) {
@@ -355,7 +355,7 @@
                         if(r)
                             $.ajax({
                             type: 'post',
-                            url: Config.root+'/maintain/wx-videoaccount/delete-wx-videoaccount-list',
+                            url: config.root+'/maintain/wx-videoaccount/delete-wx-videoaccount-list',
                             data: $.extend({},queryParam,{wxVideoaccountId:ids.length==0?null:ids.join(),expectedItemCount:ids.length==0?sum.itemCount:ids.length}),
                             success: function (res) {
                                 debugger
