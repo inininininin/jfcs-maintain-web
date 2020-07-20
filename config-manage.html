@@ -397,7 +397,7 @@ function updateConfirm(){
                     <td>微信二维码&nbsp;</td>
                     <td>
                         <div id="wxQrcode">
-                            <img style="display:none;" src="./favicon.svg" onload="$('#wxQrcode-value').attr('src',item.wxQrcode).parent().viewer({url: 'src',});if(item.wxQrcode) $('#wxQrcode-value').show();" />
+                            <img style="display:none;" src="./favicon.ico" onload="$('#wxQrcode-value').attr('src',item.wxQrcode).parent().viewer({url: 'src',});if(item.wxQrcode) $('#wxQrcode-value').show();" />
                             <img id="wxQrcode-value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
                             <input type="file" style="display:none;" onchange="
                                 javascript:
@@ -455,7 +455,7 @@ function updateConfirm(){
                     <td>微信公众号二维码&nbsp;</td>
                     <td>
                         <div id="wxOfficialQrcode">
-                            <img style="display:none;" src="./favicon.svg" onload="$('#wxOfficialQrcode-value').attr('src',item.wxOfficialQrcode).parent().viewer({url: 'src',});if(item.wxOfficialQrcode) $('#wxOfficialQrcode-value').show();" />
+                            <img style="display:none;" src="./favicon.ico" onload="$('#wxOfficialQrcode-value').attr('src',item.wxOfficialQrcode).parent().viewer({url: 'src',});if(item.wxOfficialQrcode) $('#wxOfficialQrcode-value').show();" />
                             <img id="wxOfficialQrcode-value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
                             <input type="file" style="display:none;" onchange="
                                 javascript:
@@ -497,7 +497,7 @@ function updateConfirm(){
                     <td>用户协议Url&nbsp;</td>
                     <td>
                         <span id="userProtocol" style="margin-left:5px;"></span>
-                        <img src="./favicon.svg" onload="$('#userProtocol').text(item.userProtocol||'')" style="display:none;"/>
+                        <img src="./favicon.ico" onload="$('#userProtocol').text(item.userProtocol||'')" style="display:none;"/>
                     </td>
                 </tr>
                 <tr>
