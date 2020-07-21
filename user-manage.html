@@ -83,12 +83,12 @@
                     },
                     
                     {
-                        field: 'fengXianChengShouScore', title: '风险承受', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
+                        field: 'fengXianChengShouScore', title: '风险承受', width: 150, align: 'right', halign: 'center', sortable: true, formatter: function (value, row, index) {
                             return value==null?'':((value||'')+' ('+ project.fengXianChengShou(value)+')');
                         }
                     },
                     {
-                        field: 'touZiLeiXingScore', title: '投资类型', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
+                        field: 'touZiLeiXingScore', title: '投资类型', width: 150, align: 'right', halign: 'center',  sortable: true,formatter: function (value, row, index) {
                             return value==null?'':((value||'')+' ('+ project.touZiLeiXing(value)+')');
                         }
                     },
@@ -439,7 +439,7 @@
             ">
             创建用户
         </a>
-        <a href="JavaScript:void(0)" class="easyui-linkbutton"  iconCls="icon-edit" plain="true"
+        <!-- <a href="JavaScript:void(0)" class="easyui-linkbutton"  iconCls="icon-edit" plain="true"
             onclick="
                 var ids = $($('#datagrid').datagrid('getChecked')).oneall('attrs','wxVideoaccountId');
                 ids = ids==null?[]:ids;
@@ -483,7 +483,7 @@
                 })
                 ">
             批量删除
-        </a>
+        </a> -->
     </div>
 </body>
 <script>
