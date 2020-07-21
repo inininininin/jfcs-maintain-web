@@ -217,6 +217,27 @@ var config = null;
                     />
                 </td>
             </tr>
+            <tr>
+                <td>序号&nbsp;</td>
+                <td>
+                    <input id="orderNo" class="easyui-numberbox" style="width:100%" 
+                        data-options="
+                            value:item.orderNo,
+                            precision:2,
+                            iconWidth:20,
+                            icons:[{
+                                iconCls:'icon-clear',
+                                handler: function(e){
+                                    $(e.data.target).textbox('setValue','');
+                                }
+                            }],
+                            onChange:function(newValue, oldValue){
+                                item.orderNo=newValue
+                            }
+                        " 
+                    />
+                </td>
+            </tr>
         </tbody>
     </table>
 
