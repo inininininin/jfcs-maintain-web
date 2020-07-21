@@ -307,6 +307,48 @@ function updateConfirm(){
                         }" ></td>
                 </tr>
                 <tr>
+                    <td>样例图&nbsp;</td>
+                    <td>
+                        <div id="example">
+                            <img style="display:none;" src="./favicon.ico" onload="$('#example-value').attr('src',item.example).parent().viewer({url: 'src',});if(item.example) $('#example-value').show();" />
+                            <img id="example-value" style="width:30px;height:30px;object-fit:contain;cursor:pointer;vertical-align: baseline;display:none;" onerror='debugger;$(this).attr("src","./image/image-error.png");' />
+                            <input type="file" style="display:none;" onchange="
+                                javascript:
+                                var target = this;
+                                if(this.files.length>0){
+                                    var file = this.files[0];
+                                    var fd = new FormData()
+                                    fd.append('file', file);
+                                    $.ajax({
+                                        url: config.root+'/upload-file?' + $.param({ quality: 0.8 }),
+                                        type: 'POST',
+                                        data: fd,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        async: true,
+                                        success: function (res) {
+                                            if (res.codeMsg)
+                                                $.messager.alert('提示',res.codeMsg)
+                                            if (res.code == 0) {
+                                                item.example=res.data.url 
+                                                $(target).prev().attr('src',item.example).show()
+                                             target.value=null
+                                            }
+                                        }
+                                    })
+                                }
+                            " />
+                            <a title="删除" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-clear" plain="true"
+                                style="vertical-align: text-bottom;"
+                                onclick="$(this).prev().prev().attr('src',null).hide();item.example='';"></a>
+
+                            <a title="选择" href="JavaScript:void(0)" class="easyui-linkbutton" iconCls="icon-choose" plain="true"
+                                style="vertical-align: text-bottom;" onclick="$(this).prev().prev().click()"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td>股票代码&nbsp;</td>
                     <td><input id="stockCode" class="easyui-textbox" style="width:100%" data-options="
                         value:item.stockCode,
