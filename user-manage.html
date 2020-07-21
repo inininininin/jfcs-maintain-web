@@ -81,14 +81,35 @@
                                     </span>`;
                         }
                     },
+                    
                     {
-                        field: 'questionnaireFengXianChengShouScore', title: '风险承受', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
-                            return value+' ('+ project.fengXianChengShou(value)+')';
+                        field: 'fengXianChengShouScore', title: '风险承受', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
+                            return value==null?'':((value||'')+' ('+ project.fengXianChengShou(value)+')');
                         }
                     },
                     {
-                        field: 'questionnaireTouZiLeiXingScore', title: '投资类型', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
-                            return value+' ('+ project.touZiLeiXing(value)+')';
+                        field: 'touZiLeiXingScore', title: '投资类型', width: 150, align: 'right', halign: 'center', formatter: function (value, row, index) {
+                            return value==null?'':((value||'')+' ('+ project.touZiLeiXing(value)+')');
+                        }
+                    },
+                    {
+                        field: 'keGuiHuaZiChan', title: '可规划资产', width: 150, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                            return value;
+                        }
+                    },
+                    {
+                        field: 'caiFuGuiHuaMuBiao', title: '财富规划目标', width: 150, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                            return value;
+                        }
+                    },
+                    {
+                        field: 'caiFuGuiHuaNianXian', title: '财富规划年限', width: 150, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                            return value;
+                        }
+                    },
+                    {
+                        field: 'jiaTingShouZhiZhuangKuang', title: '家庭收支状况', width: 150, align: 'left', halign: 'center', formatter: function (value, row, index) {
+                            return value;
                         }
                     },
                     {
@@ -157,27 +178,27 @@
                         queryParam.fengXianChengShouScoreTo=40
                     }else if(queryParam.fengXianChengShou ==2 ){
                         queryParam.fengXianChengShouScoreFrom=40
-                        queryParam.fengXianChengShouScoreTo=59
+                        queryParam.fengXianChengShouScoreTo=60
                     }else if(queryParam.fengXianChengShou ==3 ){
                         queryParam.fengXianChengShouScoreFrom=60
-                        queryParam.fengXianChengShouScoreTo=79
+                        queryParam.fengXianChengShouScoreTo=80
                     }else if(queryParam.fengXianChengShou ==4 ){
                         queryParam.fengXianChengShouScoreFrom=80
                         queryParam.fengXianChengShouScoreTo=101
                     }
 
                     if(queryParam.touZiLeiXing ==1 ){
-                        queryParam.touZiLeiXingFrom=null
-                        queryParam.touZiLeiXingTo=40
+                        queryParam.touZiLeiXingScoreFrom=null
+                        queryParam.touZiLeiXingScoreTo=40
                     }else if(queryParam.touZiLeiXing ==2 ){
-                        queryParam.touZiLeiXingFrom=40
-                        queryParam.touZiLeiXingTo=59
+                        queryParam.touZiLeiXingScoreFrom=40
+                        queryParam.touZiLeiXingScoreTo=60
                     }else if(queryParam.touZiLeiXing ==3 ){
-                        queryParam.touZiLeiXingFrom=60
-                        queryParam.touZiLeiXingTo=79
+                        queryParam.touZiLeiXingScoreFrom=60
+                        queryParam.touZiLeiXingScoreTo=80
                     }else if(queryParam.touZiLeiXing ==4 ){
-                        queryParam.touZiLeiXingFrom=80
-                        queryParam.touZiLeiXingTo=101
+                        queryParam.touZiLeiXingScoreFrom=80
+                        queryParam.touZiLeiXingScoreTo=101
                     }
 
                     $.get(config.root+'/maintain/user-manage/user-list', queryParam, function (data) {
@@ -239,9 +260,9 @@
             </div>
 
             <div style="display:inline-block;">
-                <input id="queryParam.questionnaireFengXianChengShou" class="easyui-combobox" label="风险承受:" labelPosition="left" labelAlign="right" style="width:300px" 
+                <input id="queryParam.fengXianChengShou" class="easyui-combobox" label="风险承受:" labelPosition="left" labelAlign="right" style="width:300px" 
                     data-options="
-                        value:queryParam.questionnaireFengXianChengShou,
+                        value:queryParam.fengXianChengShou,
                         editable:false,panelHeight:'auto',
                         data:[
                             {
@@ -268,30 +289,30 @@
                         }
                         }],
                         onChange:function(newValue, oldValue){
-                            queryParam.questionnaireFengXianChengShou=newValue
+                            queryParam.fengXianChengShou=newValue
                         }" />
             </div>
 
             <div style="display:inline-block;">
-                <input id="queryParam.questionnaireTouZiLeiXing" class="easyui-combobox" label="投资类型:" labelPosition="left" labelAlign="right" style="width:300px" 
+                <input id="queryParam.touZiLeiXing" class="easyui-combobox" label="投资类型:" labelPosition="left" labelAlign="right" style="width:300px" 
                     data-options="
-                        value:queryParam.questionnaireTouZiLeiXing,
+                        value:queryParam.touZiLeiXing,
                         editable:false,panelHeight:'auto',
                         data:[
                             {
-                                text: '低',
+                                text: '保守',
                                 value: '1'
                             },
                             {
-                                text: '中',
+                                text: '稳健',
                                 value: '2'
                             },
                             {
-                                text: '中高',
+                                text: '积极',
                                 value: '3'
                             },
                             {
-                                text: '高',
+                                text: '冒险',
                                 value: '4'
                             }],
                         iconWidth:20,
@@ -302,7 +323,7 @@
                         }
                         }],
                         onChange:function(newValue, oldValue){
-                            queryParam.questionnaireTouZiLeiXing=newValue
+                            queryParam.touZiLeiXing=newValue
                         }" />
             </div>
             <div style="display:inline-block;">
