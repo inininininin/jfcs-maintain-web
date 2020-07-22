@@ -185,6 +185,9 @@
                     }else if(queryParam.fengXianChengShou ==4 ){
                         queryParam.fengXianChengShouScoreFrom=80
                         queryParam.fengXianChengShouScoreTo=101
+                    }else{
+                        queryParam.fengXianChengShouScoreFrom=null
+                        queryParam.fengXianChengShouScoreTo=null
                     }
 
                     if(queryParam.touZiLeiXing ==1 ){
@@ -199,6 +202,9 @@
                     }else if(queryParam.touZiLeiXing ==4 ){
                         queryParam.touZiLeiXingScoreFrom=80
                         queryParam.touZiLeiXingScoreTo=101
+                    }else{
+                        queryParam.touZiLeiXingScoreFrom=null
+                        queryParam.touZiLeiXingScoreTo=null
                     }
 
                     $.get(config.root+'/maintain/user-manage/user-list', queryParam, function (data) {
